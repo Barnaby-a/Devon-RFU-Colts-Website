@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/style.css">
+        <script src="../static/js/header.js" defer></script>
+        <link rel="icon" type="image/svg" href="../static/favicon.svg">
+        <title>{% block title %}Devon RFU Colts{% endblock %} - Devon RFU Colts</title>
+    </head>
+
+    <body>
+
+    <header id="main-header">
+        <div id="head-logo-wrap">
+            <a href="/"><img src="../static/favicon.svg" alt="Devon RFU Logo" id="head-logo"></a>
+        </div>
+
+        <nav id="main-nav-buttons">
+            <a class="nav-buttons" href="/">Home</a>
+            <a class="nav-buttons" href="/overview">Overview</a>
+            <a class="nav-buttons" href="/leaderboards">Leaderboards</a>
+            <a class="nav-buttons" href="/fixtures-results">Fixtures & Results</a>
+            <a class="nav-buttons" href="/tables">Tables</a>
+            <a class="nav-buttons" href="/news">News</a>
+            <a class="nav-buttons" href="/dashboard">Dashboard</a>
+        </nav>
+            
+        <nav id="account-buttons">
+            <a class="account-buttons" id="log-in-button" href="/log-in">Log In</a>
+            <a class="account-buttons" id="sign-up-button" href="/sign-up">Sign Up</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div id="footer-content-wrap">
+            <div id="footer-section-1">
+            <div id="footer-sect-1-fract-1">
+                    <img src="../static/favicon.svg" alt="Devon RFU Logo" id="footer-logo">
+            </div> 
+            
+            <div id="footer-sect-1-fract-2">
+                    <h2>GET IN TOUCH</h2>
+                    <a href="mailto:enquiries@devonrfu.com" class="alt-links">Send Message</a>
+            </div>
+
+            <div id="footer-sect-1-fract-3">
+                    <h2>QUICK LINKS</h2>
+                    <a href="/overview" class="alt-links">Overview</a>
+                    <a href="/leaderboards" class="alt-links">Leaderboards</a>
+                    <a href="/news" class="alt-links">News</a>
+                    <a href="/dashboard" class="alt-links">Dashboard</a>
+            </div>
+
+            <div id="footer-sect-1-fract-4">
+                    <h2>FOLLOW THE ACTION</h2>
+                    <p>Stay updated with match action, team news & more. Join the Devon Rugby community!</p>
+                    <a class="links"><img src="../static/PLACEEHOLDER.xyz" alt="Facebook Icon" id="Facebook-icon"></a>
+                    <a class="links"><img src="../static/PLACEEHOLDER.xyz" alt="X Icon" id="x-icon"></a>
+                    <a class="links"><img src="../static/PLACEEHOLDER.xyz" alt="Instagram Icon" id="instagram-icon"></a>
+            </div>
+            </div>
+
+            <div id="footer-section-2">
+                <div id="footer-sect-2-fract-1">
+                    <p>Copyright &copy; 2025 Devon RFU | All rights reserved.</p>
+                    <p><a href="/privacy-policy" class="links">Privacy Policy</a>|<a href="/cookie-policy" class="links">Cookie Policy</a></p>
+                </div>
+
+                <div id="footer-sect-2-fract-2">
+                    <p>Website Design by <a href="https://barnaby-a.github.io/" class="links" id="barnaby-link">Barnaby Adams</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>

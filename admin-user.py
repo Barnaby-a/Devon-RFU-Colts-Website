@@ -1,4 +1,5 @@
-from app import db, app
+from app import app
+from extensions import db
 from models import User
 
 admin = User(email="admin@example.com")

@@ -1,4 +1,5 @@
-from app import db, app
+from app import app
+from extensions import db
 
 # Create all database tables
 with app.app_context():

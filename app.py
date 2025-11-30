@@ -4,8 +4,8 @@
 
 # Import necessary libraries
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import logout_user, current_user, login_required, login_user, LoginManager
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import logout_user, current_user, login_required, login_user
+from extensions import db, login_manager
 #from decorators import access_level_required
 
 
@@ -14,10 +14,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"  # simple file DB [we
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "change-this-secret-key"
 
-db = SQLAlchemy(app)
-from models import User
-login_manager = LoginManager()
+# Initialize extensions with the app
+db.init_app(app)
 login_manager.init_app(app)
+
+from models import User
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

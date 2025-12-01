@@ -116,6 +116,16 @@ def login():
     return render_template("login.html")
 
 
+@app.route('/logout')
+def logout():
+    try:
+        logout_user()
+    except Exception:
+        pass
+    flash('You have been signed out.', 'info')
+    return redirect(url_for('home'))
+
+
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)

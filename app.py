@@ -65,12 +65,43 @@ def news():
 def dashboard():
     return render_template("dashboard.html")
 
-# Defining the Sign Up page route
-@app.route("/sign-up")
+# Defining the Sign Up page route (GET shows form, POST creates user)
+@app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
-    return render_template("sign-up.html")
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        name = request.form.get("name") or ""
+        club = request.form.get("club") or ""
 
-@app.route("/login", methods=["GET", "POST"])
+        # Basic validation
+        if not email or not password:
+            flash("Email and password are required.", "danger")
+            return render_template("signup.html")
+
+        existing = User.query.filter_by(email=email).first()
+        if existing:
+            flash("An account with that email already exists.", "danger")
+            return render_template("signup.html")
+
+        # Create user
+        user = User(email=email)
+        user.set_password(password)
+        user.set_name(name if name else email)
+        user.set_club(club if club else "")
+        user.set_created_by("self")
+
+        # Persist
+        with app.app_context():
+            db.session.add(user)
+            db.session.commit()
+
+        flash("Account created — you can now log in.", "success")
+        return redirect(url_for("login"))
+
+    return render_template("signup.html")
+
+@app.route("/log-in", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")

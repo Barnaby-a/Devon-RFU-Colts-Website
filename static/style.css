@@ -145,6 +145,72 @@ body {
     display: block;
 }
 
+/* Signup form styling - matches site theme */
+#signup-wrap {
+    max-width: 520px;
+    margin: 48px auto;
+    background-color: #151515;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    color: white;
+}
+
+#signup-wrap h1 {
+    margin: 0 0 18px 0;
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+#signup-wrap form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#signup-wrap label {
+    font-size: 0.9rem;
+    color: #cfcfcf;
+}
+
+#signup-wrap input[type="text"],
+#signup-wrap input[type="email"],
+#signup-wrap input[type="password"] {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    outline: none;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+#signup-wrap input:focus {
+    border-color: #00a755;
+    box-shadow: 0 0 8px rgba(0,167,85,0.12);
+}
+
+#signup-wrap button {
+    margin-top: 8px;
+    background-color: #00a755;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.06s;
+}
+
+#signup-wrap button:hover {
+    box-shadow: 0 6px 18px rgba(0,167,85,0.18);
+    transform: translateY(-1px);
+}
+
+#signup-wrap .links {
+    color: #aeeec2;
+}
+
 
 
 
@@ -212,3 +278,48 @@ footer {
     display: flex;
     justify-content: space-between;
 }
+
+/* Login form uses same visual style as signup */
+#login-wrap {
+    max-width: 420px;
+    margin: 48px auto;
+    background-color: #151515;
+    padding: 26px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    color: white;
+}
+
+#login-wrap h1 {
+    margin: 0 0 14px 0;
+    font-size: 1.4rem;
+    color: #ffffff;
+}
+
+#login-wrap form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#login-wrap input[type="email"],
+#login-wrap input[type="password"] {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 8px;
+}
+
+#login-wrap button {
+    margin-top: 8px;
+    background-color: #00a755;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#login-wrap button:hover { box-shadow: 0 6px 18px rgba(0,167,85,0.18); }

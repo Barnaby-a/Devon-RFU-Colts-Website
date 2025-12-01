@@ -2,12 +2,21 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="POST" action="{{ url_for('login') }}">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
-    <input type="submit" value="Login">
-</form>
+<section id="login-wrap">
+    <h1>Account Login</h1>
+    <form method="POST" action="{{ url_for('login') }}">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <label style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+            <input type="checkbox" name="remember"> Remember me
+        </label>
+
+        <button type="submit">Log In</button>
+    </form>
+    <p style="margin-top:12px;color:#cfcfcf;">Don't have an account? <a class="links" href="/sign-up">Sign up</a></p>
+</section>
 {% endblock %}

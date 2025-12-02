@@ -34,6 +34,7 @@ body {
     background-color: #1d1d1d;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     transition: 0.3s;
+    z-index: 1000;
 
 }
 
@@ -143,6 +144,27 @@ body {
     width: 100%;
     height: auto;
     display: block;
+}
+
+/* Hero banner overlay text (left-centered) */
+.hero-banner { position: relative; overflow: hidden; }
+.hero-banner #home-banner { display:block; width:100%; height:auto; }
+.hero-text { position: absolute; color: #fff; padding: 8px 12px; background: none; border-radius:0; box-shadow: none; text-shadow: 0 3px 12px rgba(0,0,0,0.6); }
+.hero-left { left: 4%; top: 26%; transform: translateY(-60%); max-width: 44%; }
+.hero-text h1 { margin:0 0 6px 0; font-size: 4.6rem; line-height: 0.92; font-weight:600; letter-spacing: 1px; white-space: nowrap; }
+.hero-text p { margin:0; color: #e6f8ea; font-size:1.25rem; }
+
+.highlight-green { color: #00a755; }
+
+@media (max-width:900px) {
+    .hero-left { left:3%; max-width:56%; top:26%; }
+    .hero-text h1 { font-size:2.6rem; }
+}
+
+@media (max-width:600px) {
+    .hero-left { left:48%; top:40%; transform: translate(-50%,-50%); max-width:90%; }
+    .hero-text{ padding:12px 14px; }
+    .hero-text h1{ font-size:1.6rem; }
 }
 
 /* Signup form styling - matches site theme */

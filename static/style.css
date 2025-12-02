@@ -156,8 +156,64 @@ body {
 
 .highlight-green { color: #00a755; }
 
+.hero-ctas-wrap { position: absolute; /* centered within the left hero column */ left: 4%; top: 46%; width: 44%; display: flex; justify-content: center; pointer-events: auto; transform: none; }
+.hero-ctas { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin:0; }
+.hero-cta { display:inline-block; padding:10px 16px; border-radius:10px; font-weight:600; text-decoration:none; transition: box-shadow 0.15s, transform 0.06s; }
+.hero-cta-primary { background-color:#00a755; color:#ffffff; border:none; }
+.hero-cta-primary:hover { box-shadow: 0 6px 18px rgba(0,167,85,0.18); transform: translateY(-1px); }
+.hero-cta-outline { background: transparent; color: #00a755; border: 2px solid #00a755; }
+.hero-cta-outline:hover { box-shadow: #00a755 0px 0px 7px; transform: translateY(-1px); }
+
+/* =============================== */
+/* Hero CTA component (scoped)    */
+/* Scoped to `.hero-ctas` so these  */
+/* rules don't affect other buttons */
+/* =============================== */
+:root {
+    --hero-cta-bg: #00a755;
+    --hero-cta-color: #ffffff;
+    --hero-cta-padding: 12px 20px;
+    --hero-cta-radius: 12px;
+    --hero-cta-gap: 14px;
+}
+
+.hero-ctas { gap: var(--hero-cta-gap); }
+.hero-ctas .hero-cta {
+    padding: var(--hero-cta-padding);
+    border-radius: var(--hero-cta-radius);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+.hero-ctas .hero-cta-primary {
+    background: var(--hero-cta-bg);
+    color: var(--hero-cta-color);
+    border: none;
+    box-shadow: 0 8px 30px rgba(0,167,85,0.12);
+}
+.hero-ctas .hero-cta-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,167,85,0.16); }
+.hero-ctas .hero-cta-outline {
+    background: transparent;
+    color: var(--hero-cta-bg);
+    border: 2px solid var(--hero-cta-bg);
+    box-shadow: none;
+}
+.hero-ctas .hero-cta-outline:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,167,85,0.06); }
+
+/* small-screen tweak: stack CTAs vertically for narrow widths */
+@media (max-width:420px) {
+    .hero-ctas { flex-direction: column; width: 100%; gap: 10px; }
+    .hero-ctas .hero-cta { width: 100%; }
+}
+
 @media (max-width:900px) {
     .hero-left { left:3%; max-width:56%; top:26%; }
+    .hero-ctas-wrap { left: 3%; width: 56%; }
     .hero-text h1 { font-size:2.6rem; }
 }
 
@@ -165,6 +221,9 @@ body {
     .hero-left { left:48%; top:40%; transform: translate(-50%,-50%); max-width:90%; }
     .hero-text{ padding:12px 14px; }
     .hero-text h1{ font-size:1.6rem; }
+    /* On small screens the left column becomes centered; center CTAs to match */
+    .hero-ctas-wrap { left:50%; transform: translateX(-50%); width:90%; top: 56%; }
+    .hero-ctas { justify-content:center; margin-top:12px; }
 }
 
 /* Signup form styling - matches site theme */

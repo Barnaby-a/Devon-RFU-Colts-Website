@@ -17,6 +17,79 @@ window.addEventListener('scroll', function() {
 
 // Cookie consent banner behaviour
 document.addEventListener('DOMContentLoaded', () => {
+    // Modal open/close handlers
+    const manageBtn = document.getElementById('cookie-manage');
+    const modal = document.getElementById('cookie-modal');
+    const modalBackdrop = document.getElementById('cookie-modal-backdrop');
+    const modalClose = document.getElementById('cookie-modal-close');
+    const modalCancel = document.getElementById('cookie-modal-cancel');
+    const modalForm = document.getElementById('cookie-modal-form');
+    const modalSaved = document.getElementById('cookie-modal-saved');
+
+    const applyCookiesForPrefs = (prefs) => {
+        try {
+            if (prefs.analytics) {
+                document.cookie = 'analytics_consent=enabled; path=/; max-age=' + (30*24*60*60);
+            } else {
+                document.cookie = 'analytics_consent=; path=/; max-age=0';
+            }
+            if (prefs.marketing) {
+                document.cookie = 'marketing_consent=enabled; path=/; max-age=' + (30*24*60*60);
+            } else {
+                document.cookie = 'marketing_consent=; path=/; max-age=0';
+            }
+        } catch(e) {}
+    };
+
+    const openModal = () => {
+        if (!modal) return;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        // populate with saved prefs if available
+        try {
+            const raw = localStorage.getItem('cookie_preferences');
+            const prefs = raw ? JSON.parse(raw) : { analytics: false, marketing: false };
+            const a = document.getElementById('modal-pref-analytics');
+            const m = document.getElementById('modal-pref-marketing');
+            if (a) a.checked = !!prefs.analytics;
+            if (m) m.checked = !!prefs.marketing;
+        } catch(e) {}
+        // focus first input
+        const first = document.querySelector('#cookie-modal input[type="checkbox"]');
+        if (first) first.focus();
+    };
+
+    const closeModal = () => {
+        if (!modal) return;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+    };
+
+    if (manageBtn) {
+        manageBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    }
+    if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modalCancel) modalCancel.addEventListener('click', closeModal);
+
+    if (modalForm) {
+        modalForm.addEventListener('submit', (ev) => {
+            ev.preventDefault();
+            const analytics = !!document.getElementById('modal-pref-analytics').checked;
+            const marketing = !!document.getElementById('modal-pref-marketing').checked;
+            const prefs = { analytics, marketing };
+            try { localStorage.setItem('cookie_preferences', JSON.stringify(prefs)); } catch(e){}
+            applyCookiesForPrefs(prefs);
+            try { localStorage.setItem('cookie_consent', 'accepted'); } catch(e){}
+            try { document.cookie = 'cookie_consent=accepted;path=/;max-age=' + (30*24*60*60); } catch(e){}
+            if (modalSaved) {
+                modalSaved.style.display = 'inline-block';
+                setTimeout(() => { modalSaved.style.display = 'none'; closeModal(); }, 1200);
+            } else {
+                closeModal();
+            }
+        });
+    }
     const consentEl = document.getElementById('cookie-consent');
     if (!consentEl) return;
 
@@ -36,6 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // also set a cookie for server-side checks if needed (30 days)
             try { document.cookie = 'cookie_consent=accepted;path=/;max-age=' + (30*24*60*60); } catch(e){}
             hide();
+            // also load and apply preferences if present (accept implies opt-in to analytics by default)
+            try {
+                const raw = localStorage.getItem('cookie_preferences');
+                let prefs = raw ? JSON.parse(raw) : null;
+                if (!prefs) {
+                    prefs = { analytics: true, marketing: false };
+                    localStorage.setItem('cookie_preferences', JSON.stringify(prefs));
+                }
+                // apply cookies for chosen prefs
+                if (prefs.analytics) document.cookie = 'analytics_consent=enabled; path=/; max-age=' + (30*24*60*60);
+                if (prefs.marketing) document.cookie = 'marketing_consent=enabled; path=/; max-age=' + (30*24*60*60);
+            } catch(e) {}
         });
     }
 });

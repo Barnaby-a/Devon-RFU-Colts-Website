@@ -62,6 +62,16 @@ body {
     padding: 7px 15px;
 }
 
+/* add lift effect on hover similar to hero CTAs */
+.nav-buttons {
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.nav-buttons:hover,
+.nav-buttons:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,167,85,0.06);
+}
+
 .nav-buttons::after {
     content: "";
     position: absolute;
@@ -559,6 +569,50 @@ body.auth-bg #login-wrap {
 .cookie-btn.primary { padding: 8px 14px; }
 .cookie-btn.link { padding: 8px 10px; border-radius: 6px; }
 
+/* Modal for cookie preferences */
+.cookie-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 120000;
+}
+.cookie-modal.open { display: flex; }
+.cookie-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+}
+.cookie-modal-inner {
+    position: relative;
+    background: #131313;
+    color: #e8f3e8;
+    max-width: 720px;
+    width: calc(100% - 40px);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+    z-index: 2;
+}
+.cookie-modal-close {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    background: transparent;
+    border: none;
+    color: #d6e9d6;
+    font-size: 22px;
+    cursor: pointer;
+}
+.cookie-modal h2 { margin-top: 0; color: #fff; }
+.cookie-modal .cookie-pref { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; margin-bottom: 10px; }
+.cookie-modal .cookie-pref label { color: #d6e9d6; }
+
+@media (max-width:640px) {
+    .cookie-modal-inner { padding: 16px; }
+}
+
 .overview-column {
     flex: 1;
     display: flex;
@@ -994,6 +1048,16 @@ body {
 
 #sign-up-button:hover {
     box-shadow: #00a755 0px 0px 7px;
+}
+
+/* Lift effect for account buttons to match hero CTA feel */
+#log-in-button, #sign-up-button {
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+#log-in-button:hover, #log-in-button:focus,
+#sign-up-button:hover, #sign-up-button:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,167,85,0.12);
 }
 
 

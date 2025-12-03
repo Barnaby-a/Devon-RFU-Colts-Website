@@ -2,30 +2,26 @@
 
 {% block title %}Sign Up{% endblock %}
 
+{% block body_class %}auth-bg{% endblock %}
+
 {% block content %}
-<div class="auth-split">
-	<div class="auth-left">
-		<section id="signup-wrap">
-			<h1>Create account</h1>
-			<form method="post" action="/sign-up">
-				<label for="email">Email</label>
-				<input type="email" id="email" name="email" required>
+<section id="signup-wrap">
+	<h1>Create account</h1>
+	<form method="post" action="/sign-up">
+		<label for="email">Email</label>
+		<input type="email" id="email" name="email" required>
 
-				<label for="password">Password</label>
-				<input type="password" id="password" name="password" required>
+		<label for="password">Password</label>
+		<input type="password" id="password" name="password" required>
 
-				<label for="name">Full name</label>
-				<input type="text" id="name" name="name">
+		<label for="name">Full name</label>
+		<input type="text" id="name" name="name">
 
-				<label for="club">Club</label>
-				<input type="text" id="club" name="club">
+		<label for="club">Club</label>
+		<input type="text" id="club" name="club">
 
-				<button type="submit">Sign Up</button>
-			</form>
-		</section>
-	</div>
-
-	<div class="auth-right" aria-hidden="true"></div>
-</div>
+		<button type="submit">Sign Up</button>
+	</form>
+</section>
 
 {% endblock %}

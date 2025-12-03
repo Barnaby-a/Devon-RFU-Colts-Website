@@ -350,52 +350,30 @@ body {
     color: white;
 }
 
-/* Auth split layout: left form, right full-bleed image */
-.auth-split {
-    display: flex;
-    width: 100%;
-    min-height: calc(100vh - 80px); /* leave room for header */
-}
-
-.auth-left {
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 36px;
-    box-sizing: border-box;
-    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02));
-}
-
-.auth-right {
-    width: 50%;
-    background-image: url('../static/drfuc-homeslide.jpg');
+/* Auth background for login / signup pages */
+body.auth-bg {
+    background-image: url('../static/auth-placeholder.svg');
+    background-position: right center;
     background-size: cover;
-    background-position: center;
     background-repeat: no-repeat;
+    background-color: #ffffff; /* fallback */
 }
 
-/* Keep auth card left-aligned within the left column and vertically centered */
-#signup-wrap, #login-wrap {
-    margin: 0; /* handled by auth-left */
+/* Keep auth card centered */
+#signup-wrap {
     max-width: 520px;
-    width: 100%;
+    margin: 48px auto;
 }
 
-/* Responsive: stack on small screens */
+#login-wrap {
+    max-width: 420px;
+    margin: 48px auto;
+}
+
 @media (max-width:900px) {
-    .auth-split {
-        flex-direction: column-reverse; /* show image above form on small screens */
-        min-height: auto;
-    }
-
-    .auth-left, .auth-right {
-        width: 100%;
-    }
-
-    .auth-right {
-        height: 36vh;
-        min-height: 240px;
+    body.auth-bg {
+        background-position: center top;
+        background-size: cover;
     }
 }
 
@@ -612,8 +590,13 @@ footer {
     background-size: cover; */
     background-color: #1d1d1d;
     color: white;
-    margin-top: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide footer on pages that set the body class `no-footer` or `auth-bg` */
+body.no-footer footer,
+body.auth-bg footer {
+    display: none;
 }
 
 .alt-links {

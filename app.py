@@ -109,6 +109,22 @@ def tables():
 def news():
     return render_template("news.html")
 
+
+# Legal / policy pages
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy_policy.html')
+
+
+@app.route('/cookie-policy')
+def cookie_policy():
+    return render_template('cookie_policy.html')
+
 # Defining the Dashboard page route
 @app.route("/dashboard")
 @login_required

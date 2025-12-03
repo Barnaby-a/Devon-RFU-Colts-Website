@@ -6,37 +6,34 @@
     </linearGradient>
     <pattern id="diagonals" patternUnits="userSpaceOnUse" width="120" height="120">
       <rect width="120" height="120" fill="transparent" />
-      <g stroke="#00a755" stroke-width="6" stroke-linecap="round" opacity="0.12">
+      <g stroke="#00a755" stroke-width="6" stroke-linecap="round" opacity="0.10">
         <path d="M-20 100 L100 -20" />
         <path d="M40 140 L160 20" />
         <path d="M100 200 L220 80" />
       </g>
     </pattern>
     <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="18" result="b" />
+      <feGaussianBlur stdDeviation="10" result="b" />
       <feBlend in="SourceGraphic" in2="b" mode="normal" />
     </filter>
   </defs>
 
+  <!-- base gradient -->
   <rect width="1200" height="800" fill="url(#g1)" />
 
-  <!-- subtle diagonal pattern -->
-  <rect width="1200" height="800" fill="url(#diagonals)" />
+  <!-- subtle diagonal micro-pattern -->
+  <rect width="1200" height="800" fill="url(#diagonals)" opacity="0.65" />
 
-  <!-- larger soft diagonal shapes for modern look -->
-  <g filter="url(#soft)" opacity="0.7">
-    <path d="M-200 600 L1200 -400 L1400 -200 L0 800 Z" fill="#00a755" opacity="0.06" />
-    <path d="M-200 700 L1200 -300 L1500 -100 L200 800 Z" fill="#00a755" opacity="0.04" />
+  <!-- small soft accent shapes (subtle, not dominant) -->
+  <g filter="url(#soft)" opacity="0.22">
+    <path d="M900 60 C980 40, 1040 80, 1120 60 C1180 48, 1220 30, 1280 10 L1280 200 L900 200 Z" fill="#00a755" opacity="0.10" />
+    <path d="M760 220 C820 200, 900 220, 960 200 L960 320 L760 320 Z" fill="#00a755" opacity="0.06" />
   </g>
 
-  <!-- focal accent shape -->
-  <g transform="translate(820,120) rotate(18)">
-    <rect x="-120" y="-40" width="420" height="220" rx="20" fill="#00a755" opacity="0.06" />
+  <!-- a couple thin diagonal strokes for texture -->
+  <g stroke="#00a755" stroke-width="6" stroke-linecap="round" opacity="0.06">
+    <path d="M-100 650 L1200 -250" />
+    <path d="M0 700 L1400 -200" />
   </g>
 
-  <!-- subtle branding mark -->
-  <g transform="translate(40,720)">
-    <rect width="220" height="36" rx="6" fill="#ffffff" opacity="0.6" />
-    <text x="14" y="24" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#00a755">Devon RFU Colts</text>
-  </g>
 </svg>

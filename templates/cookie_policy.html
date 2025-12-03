@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Cookie Policy{% endblock %}
+
+{% block content %}
+<section class="content-wrap">
+  <h1>Cookie Policy</h1>
+  <p>Last updated: December 2025</p>
+
+  <p>This page explains how we use cookies and similar technologies on the site.</p>
+
+  <h2>What are cookies?</h2>
+  <p>Cookies are small text files stored on your device that help the site remember preferences and improve your experience.</p>
+
+  <h2>Types of cookies we use</h2>
+  <ul>
+    <li>Essential cookies — required for site functionality</li>
+    <li>Analytics cookies — used to understand how the site is used</li>
+  </ul>
+
+  <h2>Managing cookies</h2>
+  <p>You can control cookies through your browser settings. Our cookie consent banner lets you accept cookies for this device.</p>
+
+  <h2>Cookie preferences</h2>
+  <p>Choose which optional cookies you allow on this device. Essential cookies are always required for the site to function.</p>
+  <form id="cookie-prefs-form">
+    <div class="cookie-pref">
+      <label><input type="checkbox" name="analytics" id="pref-analytics"> Analytics cookies (help us improve the site)</label>
+    </div>
+    <div class="cookie-pref">
+      <label><input type="checkbox" name="marketing" id="pref-marketing"> Marketing cookies (personalised content/offers)</label>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+      <button id="cookie-save" class="cookie-btn primary">Save preferences</button>
+      <button id="cookie-reset" class="cookie-btn link" type="button">Reset consent (show banner)</button>
+      <span id="cookie-prefs-saved" style="display:none;margin-left:10px;color:#9fbf9f;">Saved ✓</span>
+    </div>
+  </form>
+
+  <p style="margin-top:18px;">Contact: <a href="mailto:enquiries@devonrfu.com">enquiries@devonrfu.com</a></p>
+</section>
+{% endblock %}

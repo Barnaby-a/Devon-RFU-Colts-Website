@@ -1,10 +1,3 @@
-/* ########################### */
-/* Devon RFU Colts Style Sheet */
-/* ########################### */
-
-/* ########################## */
-/*########### BODY ###########*/
-/* ########################## */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -20,10 +13,6 @@ body {
 .links:hover {
     color: white;
 }
-
-/* ########################## */
-/*########## HEADER ##########*/
-/* ########################## */
 
 #main-header {
     display: flex;
@@ -42,7 +31,6 @@ body {
     backdrop-filter: blur(5px);
 }
 
-/* Logo */
 #head-logo-wrap {
     margin: 5px;
     margin-left: 20px;
@@ -52,7 +40,6 @@ body {
     height: 80px;
 }
 
-/* Nav Buttons */
 .nav-buttons {
     position: relative;
     padding: 8px 0;
@@ -62,14 +49,13 @@ body {
     padding: 7px 15px;
 }
 
-/* add lift effect on hover similar to hero CTAs */
 .nav-buttons {
     transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 .nav-buttons:hover,
 .nav-buttons:focus {
     transform: translateY(-3px);
-    box-shadow: none; /* removed glow */
+    box-shadow: none;
 }
 
 .nav-buttons::after {
@@ -94,7 +80,6 @@ body {
     transform: translateX(-50%) scaleX(1);
 }
 
-/* Log in & Sign Up Buttons */
 .account-buttons {
     display: inline-block;
     text-decoration: none;
@@ -115,7 +100,7 @@ body {
 }
 
 #log-in-button:hover {
-    box-shadow: none; /* removed glow */
+    box-shadow: none;
 }
 
 #sign-up-button {
@@ -127,17 +112,15 @@ body {
 }
 
 #sign-up-button:hover {
-    box-shadow: none; /* removed glow */
+    box-shadow: none;
 }
 
-/* home banner */
 #home-banner {
     width: 100%;
     height: auto;
     display: block;
 }
 
-/* Hero banner overlay text (left-centered) */
 .hero-banner {
     position: relative;
     overflow: hidden;
@@ -235,11 +218,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* =============================== */
-/* Hero CTA component (scoped)    */
-/* Scoped to `.hero-ctas` so these  */
-/* rules don't affect other buttons */
-/* =============================== */
 :root {
     --hero-cta-bg: #00a755;
     --hero-cta-color: #ffffff;
@@ -289,7 +267,6 @@ body {
     box-shadow: 0 8px 18px rgba(0,167,85,0.06);
 }
 
-/* small-screen tweak: stack CTAs vertically for narrow widths */
 @media (max-width:420px) {
     .hero-ctas {
         flex-direction: column;
@@ -335,7 +312,6 @@ body {
         font-size: 1.6rem;
     }
 
-    /* On small screens the left column becomes centered; center CTAs to match */
     .hero-ctas-wrap {
         left: 50%;
         transform: translateX(-50%);
@@ -349,7 +325,6 @@ body {
     }
 }
 
-/* Signup form styling - matches site theme */
 #signup-wrap {
     max-width: 520px;
     margin: 48px auto;
@@ -360,7 +335,6 @@ body {
     color: white;
 }
 
-/* Auth background for login / signup pages */
 body.auth-bg {
     background-image: url('/static/auth-placeholder.svg');
     background-position: right center;
@@ -369,14 +343,12 @@ body.auth-bg {
     background-color: #fff;
 }
 
-/* Center auth card vertically in the viewport (accounts for header height) */
 body.auth-bg main {
     min-height: calc(100vh - 120px);
     display: flex;
     align-items: center;
 }
 
-/* Ensure the login / signup wrapper centers inside the main flex area */
 body.auth-bg #signup-wrap,
 body.auth-bg #login-wrap {
     margin: 0 auto;
@@ -384,7 +356,6 @@ body.auth-bg #login-wrap {
     max-width: 520px;
 }
 
-/* small terms & conditions note under auth forms */
 .auth-terms {
     margin-top: 14px;
     font-size: 13px;
@@ -399,14 +370,13 @@ body.auth-bg #login-wrap {
     color: #005a2a;
 }
 
-/* Cookie consent banner */
 #cookie-consent {
     position: fixed;
     left: 16px;
     right: 16px;
     bottom: 18px;
     z-index: 99999;
-    display: none; /* shown by JS */
+    display: none;
     justify-content: center;
 }
 #cookie-consent .cookie-inner {
@@ -458,7 +428,6 @@ body.auth-bg #login-wrap {
     }
 }
 
-/* Keep auth card centered */
 #signup-wrap {
     max-width: 520px;
     margin: 48px auto;
@@ -476,9 +445,6 @@ body.auth-bg #login-wrap {
     }
 }
 
-/* ===================== */
-/* Overview page styling  */
-/* ===================== */
 .overview-hero {
     background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('../static/drfuc-homeslide.jpg') center/cover no-repeat;
     color: #fff;
@@ -519,12 +485,11 @@ body.auth-bg #login-wrap {
     gap: 26px;
 }
 
-/* Generic content wrapper used by policy pages */
 .content-wrap {
     max-width: 980px;
     margin: 36px auto;
     padding: 28px 20px;
-    background: transparent; /* keep page-wide dark background */
+    background: transparent;
     color: #e6efe6;
 }
 
@@ -555,7 +520,6 @@ body.auth-bg #login-wrap {
     .content-wrap h1 {font-size: 1.6rem; }
 }
 
-/* Cookie policy preference controls */
 .cookie-pref {
     background: rgba(255,255,255,0.02);
     padding: 10px 12px;
@@ -575,7 +539,6 @@ body.auth-bg #login-wrap {
     border-radius: 6px;
 }
 
-/* Modal for cookie preferences */
 .cookie-modal {
     position: fixed;
     inset: 0;
@@ -669,13 +632,10 @@ body.auth-bg #login-wrap {
     }
 }
 
-/* =========================== */
-/* Sponsors banner (marquee)   */
-/* =========================== */
 .sponsors-banner {
     width: 100%;
     background: #0f0f0f;
-    padding: 64px 0; /* reduced thickness while keeping large logos */
+    padding: 64px 0;
     overflow: hidden;
     border-top: 1px solid rgba(255,255,255,0.03);
     border-bottom: 1px solid rgba(255,255,255,0.03);
@@ -683,7 +643,7 @@ body.auth-bg #login-wrap {
 
 .sponsors-track {
     display: flex;
-    gap: 60px; 
+    gap: 60px;
     align-items: center;
     width: max-content;
     animation: sponsors-scroll 180s linear infinite;
@@ -697,7 +657,7 @@ body.auth-bg #login-wrap {
 }
 
 .sponsor-logo {
-    height: 140px; /* very large icons on desktop */
+    height: 140px;
     width: auto;
     opacity: 0.95;
     filter: grayscale(0%);
@@ -794,17 +754,12 @@ body.auth-bg #login-wrap {
     color: #aeeec2;
 }
 
-/* ########################## */
-/*########## FOOTER ##########*/
-/* ########################## */
-
 footer {
     background-color: #1d1d1d;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-/* Hide footer on pages that set the body class `no-footer` or `auth-bg` */
 body.no-footer footer,
 body.auth-bg footer {
     display: none;
@@ -847,16 +802,11 @@ body.auth-bg footer {
     align-items: left;
 }
 
-/* #footer-sect-1-fract-4 {
-
-} */
-
 #footer-section-2 {
     display: flex;
     justify-content: space-between;
 }
 
-/* Login form uses same visual style as signup */
 #login-wrap {
     max-width: 420px;
     margin: 48px auto;
@@ -903,7 +853,6 @@ body.auth-bg footer {
     box-shadow: 0 6px 18px rgba(0,167,85,0.18);
 }
 
-/* Flash messages */
 #flashes {
     max-width: 980px;
     margin: 18px auto 0 auto;
@@ -941,9 +890,6 @@ body.auth-bg footer {
     border: 1px solid rgba(0,123,255,0.08);
 }
 
-/* ########################## */
-/*########### BODY ###########*/
-/* ########################## */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -959,10 +905,6 @@ body {
 .links:hover {
     color: white;
 }
-
-/* ########################## */
-/*########## HEADER ##########*/
-/* ########################## */
 
 #main-header {
     display: flex;
@@ -980,11 +922,9 @@ body {
 #main-header.scrolled {
     background-color: transparent;
     backdrop-filter: blur(5px);
-    
+
 }
 
-
-/* Logo */
 #head-logo-wrap {
     margin: 5px;
     margin-left: 20px;
@@ -994,8 +934,6 @@ body {
     height: 80px;
 }
 
-
-/* Nav Buttons */
 .nav-buttons {
     position: relative;
     padding: 8px 0;
@@ -1003,7 +941,7 @@ body {
     color: white;
     text-decoration: none;
     padding: 7px 15px;
-    
+
 }
 
 .nav-buttons::after {
@@ -1022,20 +960,18 @@ body {
 
 .nav-buttons:hover::after {
     transform: translateX(-50%) scaleX(1);
-    
+
 }
 
 .nav-buttons.active::after {
     transform: translateX(-50%) scaleX(1);
 }
 
-
-/* Log in & Sign Up Buttons */
 .account-buttons {
     display: inline-block;
     text-decoration: none;
     padding: 7px 15px;
-    
+
 }
 
 #account-buttons {
@@ -1068,7 +1004,6 @@ body {
     box-shadow: #00a755 0px 0px 7px;
 }
 
-/* Lift effect for account buttons to match hero CTA feel */
 #log-in-button, #sign-up-button {
     transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
@@ -1077,24 +1012,12 @@ body {
     transform: translateY(-3px);
 }
 
-
-
-
-
-
-
-
-
-
-
-/* home banner */
 #home-banner {
     width: 100%;
     height: auto;
     display: block;
 }
 
-/* Hero banner overlay text (left-centered) */
 .hero-banner {
     position: relative;
     overflow: hidden;
@@ -1188,11 +1111,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* =============================== */
-/* Hero CTA component (scoped)    */
-/* Scoped to `.hero-ctas` so these  */
-/* rules don't affect other buttons */
-/* =============================== */
 :root {
     --hero-cta-bg: #00a755;
     --hero-cta-color: #ffffff;
@@ -1238,7 +1156,6 @@ body {
     box-shadow: 0 8px 18px rgba(0,167,85,0.06);
 }
 
-/* small-screen tweak: stack CTAs vertically for narrow widths */
 @media (max-width:420px) {
     .hero-ctas { flex-direction: column; width: 100%; gap: 10px; }
     .hero-ctas .hero-cta { width: 100%; }
@@ -1254,12 +1171,11 @@ body {
     .hero-left { left:48%; top:40%; transform: translate(-50%,-50%); max-width:90%; }
     .hero-text{ padding:12px 14px; }
     .hero-text h1{ font-size:1.6rem; }
-    /* On small screens the left column becomes centered; center CTAs to match */
+
     .hero-ctas-wrap { left:50%; transform: translateX(-50%); width:90%; top: 56%; }
     .hero-ctas { justify-content:center; margin-top:12px; }
 }
 
-/* Signup form styling - matches site theme */
 #signup-wrap {
     max-width: 520px;
     margin: 48px auto;
@@ -1270,10 +1186,6 @@ body {
     color: white;
 }
 
-
-/* ===================== */
-/* Overview page styling  */
-/* ===================== */
 .overview-hero {
     background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('../static/drfuc-homeslide.jpg') center/cover no-repeat;
     color: #fff;
@@ -1338,7 +1250,6 @@ body {
     .overview-content .container { flex-direction: column; }
 }
 
-
 #signup-wrap h1 {
     margin: 0 0 18px 0;
     font-size: 1.6rem;
@@ -1394,22 +1305,8 @@ body {
     color: #aeeec2;
 }
 
-
-
-
-
-
-
-
-
-
-/* ########################## */
-/*########## FOOTER ##########*/
-/* ########################## */
-
 footer {
-    /* background-image: url(../static/tex-dark.jpg);
-    background-size: cover; */
+
     background-color: #1d1d1d;
     color: white;
     margin-top: 20px;
@@ -1453,16 +1350,11 @@ footer {
     align-items: left;
 }
 
-/* #footer-sect-1-fract-4 {
-
-} */
-
 #footer-section-2 {
     display: flex;
     justify-content: space-between;
 }
 
-/* Login form uses same visual style as signup */
 #login-wrap {
     max-width: 420px;
     margin: 48px auto;
@@ -1518,7 +1410,6 @@ footer {
     box-shadow: 0 8px 24px rgba(0,0,0,0.35);
 }
 
-/* Flash container - overlay so messages do not push page content */
 #flashes {
     position: fixed;
     top: 20px;
@@ -1528,10 +1419,9 @@ footer {
     max-width: 980px;
     width: calc(100% - 40px);
     padding: 0 20px;
-    pointer-events: none; /* let clicks pass through except on .flash which has pointer-events:auto */
+    pointer-events: none;
 }
 
-/* Flash animation helpers */
 .flash {
     opacity: 0;
     transform: translateY(-6px);

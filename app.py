@@ -21,7 +21,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-from models import User
+from models import User, Club
 import os
 
 # sponsor image extensions we'll accept
@@ -147,11 +147,17 @@ def sign_up():
         email = request.form.get("email")
         password = request.form.get("password")
         name = request.form.get("name") or ""
-        club = request.form.get("club") or ""
+        account_type = request.form.get("account_type") or 'regular'
+        club_code = (request.form.get("club_code") or "").strip()
 
         # Basic validation
         if not email or not password:
             flash("Email and password are required.", "danger")
+            return render_template("signup.html")
+
+        # If player/coach they must provide a club code
+        if account_type in ('player', 'coach') and not club_code:
+            flash("Players and coaches must provide a club code.", 'danger')
             return render_template("signup.html")
 
         existing = User.query.filter_by(email=email).first()
@@ -159,11 +165,26 @@ def sign_up():
             flash("An account with that email already exists.", "danger")
             return render_template("signup.html")
 
+        # If a club code was provided, ensure it exists in Club table
+        club_obj = None
+        if club_code:
+            club_obj = Club.query.filter_by(code=club_code).first()
+            if not club_obj and account_type in ('player', 'coach'):
+                flash('Invalid club code provided.', 'danger')
+                return render_template('signup.html')
+
         # Create user
         user = User(email=email)
         user.set_password(password)
         user.set_name(name if name else email)
-        user.set_club(club if club else "")
+        user.account_type = account_type
+        if club_obj:
+            user.set_club(club_obj.name)
+            user.set_club_code(club_obj.code)
+        else:
+            # non-player/coach or no matching club -> store nothing
+            user.set_club("")
+            user.set_club_code("")
         user.set_created_by("self")
 
         # Persist

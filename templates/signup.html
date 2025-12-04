@@ -17,11 +17,41 @@
 		<label for="name">Full name</label>
 		<input type="text" id="name" name="name">
 
-		<label for="club">Club</label>
-		<input type="text" id="club" name="club">
+		<label for="account_type">Account type</label>
+		<select id="account_type" name="account_type">
+			<option value="regular" selected>Regular</option>
+			<option value="player">Player</option>
+			<option value="coach">Coach</option>
+		</select>
+
+		<div id="club-code-wrap" style="display:none;margin-top:8px;">
+			<label for="club_code">Club code</label>
+			<input type="text" id="club_code" name="club_code" placeholder="Enter club code">
+			<p style="font-size:12px;color:#9ea79a;margin-top:6px;">Players and coaches must provide a valid club code.</p>
+		</div>
 
 		<button type="submit">Sign Up</button>
 	</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	const acct = document.getElementById('account_type');
+	const wrap = document.getElementById('club-code-wrap');
+	const code = document.getElementById('club_code');
+	function update() {
+		if (!acct) return;
+		if (acct.value === 'player' || acct.value === 'coach') {
+			wrap.style.display = 'block';
+			if (code) code.setAttribute('required', 'required');
+		} else {
+			wrap.style.display = 'none';
+			if (code) code.removeAttribute('required');
+		}
+	}
+	if (acct) acct.addEventListener('change', update);
+	update();
+});
+</script>
 		<p class="auth-terms">By creating an account you agree to the <a href="/terms">Terms &amp; Conditions</a>.</p>
 </section>
 

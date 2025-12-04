@@ -17,6 +17,18 @@ window.addEventListener('scroll', function() {
 
 // Cookie consent banner behaviour
 document.addEventListener('DOMContentLoaded', () => {
+    // Ensure there's only one cookie consent banner in the DOM.
+    // In some edge cases templates or client scripts may accidentally
+    // duplicate the banner; remove any extras so the rest of this
+    // script only operates on a single element.
+    try {
+        const _consents = document.querySelectorAll('#cookie-consent');
+        if (_consents && _consents.length > 1) {
+            for (let i = 1; i < _consents.length; i++) {
+                try { _consents[i].remove(); } catch (e) { /* ignore */ }
+            }
+        }
+    } catch (e) { /* ignore DOM errors in older browsers */ }
     // Modal open/close handlers
     const manageBtn = document.getElementById('cookie-manage');
     const modal = document.getElementById('cookie-modal');

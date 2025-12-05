@@ -6,4 +6,37 @@
 
 {% block content %}
 
+<div class="content-wrap">
+	<h1>Dashboard</h1>
+
+	{% if current_user.is_authenticated and not current_user.is_player() %}
+		<section style="margin-top:18px;">
+			<h2>Your followed teams</h2>
+			<ul>
+				{% for t in current_user.followed_teams %}
+					<li>
+						{{ t.name }}
+						<form method="post" action="{{ url_for('unfollow_team', team_id=t.id) }}" style="display:inline-block;margin-left:8px;">
+							<button class="hero-cta hero-cta-outline">Unfollow</button>
+						</form>
+					</li>
+				{% else %}
+					<li>You are not following any teams yet.</li>
+				{% endfor %}
+			</ul>
+
+			<h3>Follow a team</h3>
+			<form method="post" action="/follow" id="follow-form">
+				<select name="team_id">
+					{% for t in teams %}
+						<option value="{{ t.id }}">{{ t.name }}{% if t.code %} (code required){% endif %}</option>
+					{% endfor %}
+				</select>
+				<button type="submit" class="hero-cta hero-cta-primary">Follow</button>
+			</form>
+		</section>
+	{% endif %}
+
+</div>
+
 {% endblock %}

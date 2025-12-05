@@ -15,6 +15,12 @@
     <label for="code">Short code (optional)</label>
     <input type="text" name="code" id="code" value="{% if team %}{{ team.code }}{% endif %}">
 
+    <label for="player_code">Player signup code (optional)</label>
+    <input type="text" name="player_code" id="player_code" value="{% if team %}{{ team.player_code or '' }}{% endif %}">
+
+    <label for="coach_code">Coach signup code (optional)</label>
+    <input type="text" name="coach_code" id="coach_code" value="{% if team %}{{ team.coach_code or '' }}{% endif %}">
+
     <label for="logo_filename">Logo filename (place file under `static/team-logos/`)</label>
     <input type="text" name="logo_filename" id="logo_filename" value="{% if team %}{{ team.logo_filename }}{% endif %}">
 

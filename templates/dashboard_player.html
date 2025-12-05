@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Player Dashboard{% endblock %}
+
+{% block content %}
+<div class="content-wrap">
+  <h1>Your Team: {{ team.name }}</h1>
+  <h2>Upcoming Matches</h2>
+  <ul>
+    {% for m in upcoming %}
+      <li>{{ m.date_time.strftime('%a %d %b %Y %H:%M') }} — {{ m.home_team.name }} vs {{ m.away_team.name }} ({{ m.location or 'TBC' }})</li>
+    {% else %}
+      <li>No upcoming matches.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Teammates</h2>
+  <ul>
+    {% for p in teammates %}
+      <li>{{ p.user.name }}{% if p.squad_number %} — #{{ p.squad_number }}{% endif %}{% if p.position %} ({{ p.position }}){% endif %}</li>
+    {% else %}
+      <li>No teammates listed.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

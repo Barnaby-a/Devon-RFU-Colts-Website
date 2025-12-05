@@ -680,28 +680,31 @@ body.no-footer footer, body.auth-bg footer {
 .next-match-card {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 24px; /* slightly smaller breathing room */
-    align-items: center;
+    gap: 24px;
+    align-items: stretch;
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-    padding: 40px; /* a little smaller outer padding */
-    border-radius: 16px; /* slightly reduced radius */
-    box-shadow: 0 22px 70px rgba(0,0,0,0.6); /* gentler shadow */
-    min-height: 160px; /* slightly smaller min-height */
+    padding: 14px 40px 36px 40px; /* smaller top padding, larger bottom for button space */
+    border-radius: 16px;
+    box-shadow: 0 22px 70px rgba(0,0,0,0.6);
+    min-height: 160px;
 }
-.nm-left { display:flex; flex-direction:column; gap:6px; }
-.nm-title { font-size:0.92rem; color:#cfcfcf; font-weight:700; }
-.nm-line { color:#e6f8ea; font-weight:700; }
-.nm-datetime, .nm-location { color:#cfcfcf; font-weight:600; font-size:0.95rem; }
-.nm-center { display:flex; align-items:center; justify-content:center; }
-.nm-logos { display:flex; align-items:center; gap:10px; }
+.nm-left { display:flex; flex-direction:column; gap:6px; align-items:flex-start; justify-content:flex-start; padding-top:2px; height:100%; }
+.nm-title { font-size:1.14rem; color:#cfcfcf; font-weight:800; margin-top:0; }
+.nm-line { color:#e6f8ea; font-weight:800; }
+.nm-datetime, .nm-location { color:#cfcfcf; font-weight:700; font-size:0.98rem; }
+
+/* center the block of three match lines vertically in the left column */
+.nm-body { display:flex; flex-direction:column; gap:6px; margin-top: auto; margin-bottom: auto; }
+.nm-center { display:flex; align-items:center; justify-content:center; height:100%; }
+.nm-logos { display:flex; align-items:center; gap:10px; margin:auto; }
 .nm-logo { width:72px; height:72px; padding:8px; background:rgba(255,255,255,0.02); border-radius:8px; object-fit:contain; }
 .nm-vs { color:#cfcfcf; font-weight:800; margin: 0 6px; }
-.nm-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-.nm-countdown { display:flex; align-items:center; gap:6px; color:#e6f8ea; font-weight:700; font-size:0.85rem; }
+.nm-right { position: relative; display:block; height:100%; }
+.nm-countdown { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); display:flex; align-items:center; justify-content:flex-end; gap:8px; color:#e6f8ea; font-weight:700; font-size:0.95rem; }
 .cd-val { background:#111; padding:4px 6px; border-radius:6px; min-width:28px; text-align:center; font-size:0.95rem; }
 .cd-sep { color:#9ea79a; font-weight:600; margin-right:4px; margin-left:4px; font-size:0.85rem; }
 .cd-label { font-size:0.72rem; color:#cfcfcf; font-weight:600; margin-top:4px; text-align:right; }
-.nm-btn { padding:8px 12px; border-radius:8px; font-weight:700; }
+.nm-btn { position: absolute; right: 12px; bottom: 8px; padding:8px 12px; border-radius:8px; font-weight:700; }
 
 @media (max-width:900px) {
     .next-match-card { grid-template-columns: 1fr 1fr 1fr; gap:10px; padding:10px; }
@@ -722,6 +725,10 @@ body.no-footer footer, body.auth-bg footer {
 .recent-results-grid { display: none; }
 .recent-results .match-list { display: flex; flex-direction: column; gap: 12px; }
 .recent-results .match-card { width: 100%; }
+
+/* actions under recent results (e.g. See all fixtures) */
+.recent-results-actions { display:flex; justify-content:flex-end; margin-top:12px; }
+.recent-results-actions .hero-btn { padding: 8px 12px; border-radius: 10px; font-weight:700; }
 
 @media (max-width:900px) {
     .recent-results-grid { grid-template-columns: repeat(2, 1fr); }
@@ -791,8 +798,7 @@ body.no-footer footer, body.auth-bg footer {
     color: #aeeec2;
 }
 
-/* Signup: account type dropdown and club code styling */
-#signup-wrap select#account_type,
+/* Signup: club code styling (account type removed — use access_level only server-side) */
 #signup-wrap input#club_code {
     background-color: #1e1e1e;
     border: 1px solid #333;
@@ -805,18 +811,6 @@ body.no-footer footer, body.auth-bg footer {
     font-size: 0.95rem;
 }
 
-#signup-wrap select#account_type {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #9fbf9f 50%), linear-gradient(135deg, #9fbf9f 50%, transparent 50%);
-    background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
-    background-size: 6px 6px, 6px 6px;
-    background-repeat: no-repeat;
-    padding-right: 36px; 
-}
-
-#signup-wrap select#account_type:focus,
 #signup-wrap input#club_code:focus {
     border-color: var(--brand-green);
     box-shadow: 0 0 8px rgba(0,167,85,0.08);
@@ -1105,7 +1099,10 @@ body.auth-bg #login-wrap {
 }
 
 @media (max-width:600px) {
-    .next-match-card { grid-template-columns: 1fr 1fr 1fr; gap:16px; padding:26px; }
+    .next-match-card {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap:16px;
+        padding:26px;
         left: 48%;
         top: 40%;
         transform: translate(-50%,-50%);

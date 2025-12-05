@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Players{% endblock %}
+
+{% block content %}
+<div class="content-wrap" style="max-width:980px;margin:30px auto;color:white;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <a href="{{ url_for('admin_dashboard') }}" class="hero-cta hero-cta-outline small">Back</a>
+    <h1 style="margin:0">Manage Players</h1>
+  </div>
+
+  <form method="post" style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+    <input type="text" name="email" placeholder="Email" required style="padding:8px;background:#1e1e1e;border:1px solid #333;color:#fff;border-radius:6px;" />
+    <input type="text" name="name" placeholder="Full name" style="padding:8px;background:#1e1e1e;border:1px solid #333;color:#fff;border-radius:6px;" />
+    <input type="password" name="password" placeholder="Password" required style="padding:8px;background:#1e1e1e;border:1px solid #333;color:#fff;border-radius:6px;" />
+    <select name="team_id" style="padding:8px;border-radius:6px;background:#1e1e1e;color:#fff;border:1px solid #333;">
+      <option value="">No team</option>
+      {% for t in teams %}
+        <option value="{{ t.id }}">{{ t.name }}</option>
+      {% endfor %}
+    </select>
+    <button class="hero-cta hero-cta-primary">Create player</button>
+  </form>
+
+  <table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr style="text-align:left;color:#cfcfcf;border-bottom:1px solid rgba(255,255,255,0.04)">
+        <th style="padding:8px">Name</th>
+        <th style="padding:8px">Email</th>
+        <th style="padding:8px">Team</th>
+        <th style="padding:8px">Joined</th>
+        <th style="padding:8px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in players %}
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.02)">
+        <td style="padding:8px;vertical-align:top">{{ p.user.name }}</td>
+        <td style="padding:8px;vertical-align:top">{{ p.user.email }}</td>
+        <td style="padding:8px;vertical-align:top">{{ p.team.name if p.team else '—' }}</td>
+        <td style="padding:8px;vertical-align:top">{{ p.joined_on.strftime('%Y-%m-%d') if p.joined_on else '—' }}</td>
+        <td style="padding:8px;vertical-align:top">
+          <form method="post" action="{{ url_for('admin_player_delete', player_id=p.id) }}" style="display:inline-block;">
+            <button class="hero-cta hero-cta-outline" type="submit">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -7,6 +7,11 @@
 <section class="fixtures-section content-wrap">
 	<h1>Fixtures & Results</h1>
 
+	<form method="get" style="margin-bottom:12px;display:flex;gap:8px;align-items:center;">
+		<input type="text" name="q" placeholder="Search teams or codes" value="{{ request.args.get('q','') }}" style="padding:8px;border-radius:6px;border:1px solid #333;background:#1e1e1e;color:#fff;" />
+		<button class="hero-btn hero-btn-outline">Search</button>
+	</form>
+
 	{% if upcoming %}
 	<h2>Upcoming Matches</h2>
 	<div class="match-list">

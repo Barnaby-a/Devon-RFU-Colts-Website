@@ -4,11 +4,19 @@
 
 {% block content %}
 <div class="content-wrap" style="max-width:980px;margin:30px auto;color:white;">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-    <a href="{{ url_for('admin_dashboard') }}" onclick="(function(e){e.preventDefault();try{var r=document.referrer;if(r && new URL(r).origin===location.origin){history.back();}else{window.location=this.getAttribute('href');}}catch(err){window.location=this.getAttribute('href');}}).call(this,event);" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
-    <h1 style="margin:0">Manage Teams</h1>
+  <div class="admin-card" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="{{ url_for('admin_dashboard') }}" onclick="(function(e){e.preventDefault();try{var r=document.referrer;if(r && new URL(r).origin===location.origin){history.back();}else{window.location=this.getAttribute('href');}}catch(err){window.location=this.getAttribute('href');}}).call(this,event);" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
+      <h1 style="margin:0">Teams</h1>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_team_new') }}">Create new team</a>
+      <form method="get" style="margin:0;display:flex;gap:8px;align-items:center;">
+        <input type="text" name="q" placeholder="Search teams or codes" value="{{ request.args.get('q','') }}" style="padding:6px;border-radius:6px;border:1px solid #333;background:#1e1e1e;color:#fff;" />
+        <button class="hero-cta hero-cta-outline" type="submit">Search</button>
+      </form>
+    </div>
   </div>
-  <p><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_team_new') }}">Create new team</a></p>
 
   <table class="admin-matches-table" style="width:100%;border-collapse:collapse">
     <thead>
@@ -27,6 +35,8 @@
         <td style="padding:8px">{% if t.logo_filename %}<img src="{{ url_for('static', filename='team-logos/' ~ t.logo_filename) }}" alt="{{ t.name }}" style="height:36px;">{% else %}—{% endif %}</td>
         <td style="padding:8px">
           <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_team_edit', team_id=t.id) }}">Edit</a>
+          <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_team_coaches', team_id=t.id) }}" style="margin-left:8px;">Manage coaches</a>
+          <a class="hero-cta hero-cta-outline" href="{{ url_for('coach_team_players', team_id=t.id) }}" style="margin-left:8px;">Manage players</a>
           <form method="post" action="{{ url_for('admin_team_delete', team_id=t.id) }}" style="display:inline-block;margin-left:8px" onsubmit="return confirm('Delete team? This cannot be undone.')">
             <button type="submit" class="hero-cta hero-cta-outline" style="background:transparent;border-color:#b04b4b;color:#b04b4b;padding:6px 8px">Delete</button>
           </form>

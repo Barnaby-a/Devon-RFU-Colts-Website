@@ -7,12 +7,12 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
-    access_level = db.Column(db.String(50), default='user')  # e.g., 'user', 'admin'
+    # access_level: 'regular' | 'player' | 'coach' | 'superadmin'
+    access_level = db.Column(db.String(50), default='regular')
     name = db.Column(db.String(150), nullable=False)
     created_by = db.Column(db.String, nullable=False)
     club = db.Column(db.String(150), nullable=False)
-    # account type: 'regular' | 'player' | 'coach'
-    account_type = db.Column(db.String(50), nullable=False, default='regular')
+    # NOTE: removed duplicate `account_type` field — use `access_level` exclusively
     # optional club code (references Club.code)
     club_code = db.Column(db.String(64), nullable=True)
 
@@ -39,6 +39,45 @@ class User(UserMixin, db.Model):
         # store club code (short identifier) if present
         self.club_code = code
 
+    # Convenience helpers for role checks
+    def is_superadmin(self):
+        lvl = self.access_level
+        if lvl is None:
+            return False
+        # support legacy numeric levels (e.g. '2') as well as textual roles
+        try:
+            return int(lvl) >= 2
+        except Exception:
+            return str(lvl).lower() in ('superadmin', 'admin')
+
+    def is_coach(self):
+        lvl = self.access_level
+        if lvl is None:
+            return False
+        try:
+            return int(lvl) == 1
+        except Exception:
+            return str(lvl).lower() == 'coach'
+
+    def is_player(self):
+        # Determine if this user is a player by checking `access_level`.
+        lvl = self.access_level
+        if lvl is None:
+            return False
+        try:
+            return int(lvl) == 0
+        except Exception:
+            return str(lvl).lower() == 'player'
+
+    def can_manage_teams(self):
+        return self.is_superadmin()
+
+    def can_edit_matches(self):
+        return self.is_coach() or self.is_superadmin()
+
+    def can_view_all(self):
+        return self.is_superadmin()
+
 
 
 class Team(db.Model):
@@ -46,10 +85,51 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     code = db.Column(db.String(64), unique=True, nullable=True)
+    # Optional separate codes for players and coaches to self-register
+    player_code = db.Column(db.String(64), unique=False, nullable=True)
+    coach_code = db.Column(db.String(64), unique=False, nullable=True)
     logo_filename = db.Column(db.String(256), nullable=True)
+
+    # relationships (players and coaches)
+    players = db.relationship('Player', backref='team', lazy='dynamic')
+    coaches = db.relationship('User', secondary='team_coaches', backref=db.backref('coached_teams', lazy='dynamic'))
+    followers = db.relationship('User', secondary='user_followed_teams', backref=db.backref('followed_teams', lazy='dynamic'))
 
     def __repr__(self):
         return f"<Team {self.name}>"
+
+
+# association table linking teams and coach users
+team_coaches = db.Table(
+    'team_coaches',
+    db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+)
+
+
+# users may follow teams (regular accounts can follow clubs/teams)
+user_followed_teams = db.Table(
+    'user_followed_teams',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True)
+)
+
+
+class Player(db.Model):
+    __tablename__ = 'player'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
+    squad_number = db.Column(db.String(16), nullable=True)
+    position = db.Column(db.String(64), nullable=True)
+    date_of_birth = db.Column(db.Date, nullable=True)
+    joined_on = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+
+    # relationship back to the User record
+    user = db.relationship('User', backref=db.backref('player_profile', uselist=False))
+
+    def __repr__(self):
+        return f"<Player {self.id} user={self.user_id} team={self.team_id}>"
 
 
 class Match(db.Model):

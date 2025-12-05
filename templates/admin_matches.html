@@ -5,7 +5,7 @@
 {% block content %}
 <div class="content-wrap" style="max-width:980px;margin:30px auto;color:white;">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-    <a href="{{ url_for('admin_dashboard') }}" onclick="event.preventDefault(); history.back();" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
+    <a href="{{ url_for('admin_dashboard') }}" onclick="(function(e){e.preventDefault();try{var r=document.referrer;if(r && new URL(r).origin===location.origin){history.back();}else{window.location=this.getAttribute('href');}}catch(err){window.location=this.getAttribute('href');}}).call(this,event);" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
     <h1 style="margin:0">Manage Matches</h1>
   </div>
   <p><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_match_new') }}">Create new match</a></p>

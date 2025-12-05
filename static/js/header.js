@@ -1,3 +1,7 @@
+// Interactivity script
+
+
+// Header scroll behaviour
 let lastScrollY = window.scrollY;
 
 window.addEventListener('scroll', function() {
@@ -6,10 +10,8 @@ window.addEventListener('scroll', function() {
 
     const currentScrollY = window.scrollY;
     if (currentScrollY > lastScrollY) {
-        // scrolling down
         header.classList.add('scrolled');
     } else {
-        // scrolling up or no movement
         header.classList.remove('scrolled');
     }
     lastScrollY = currentScrollY;
@@ -17,18 +19,15 @@ window.addEventListener('scroll', function() {
 
 // Cookie consent banner behaviour
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure there's only one cookie consent banner in the DOM.
-    // In some edge cases templates or client scripts may accidentally
-    // duplicate the banner; remove any extras so the rest of this
-    // script only operates on a single element.
+    // remove duplicate banners if they exist (they did)
     try {
         const _consents = document.querySelectorAll('#cookie-consent');
         if (_consents && _consents.length > 1) {
             for (let i = 1; i < _consents.length; i++) {
-                try { _consents[i].remove(); } catch (e) { /* ignore */ }
+                try { _consents[i].remove(); } catch (e) { /* ignore errors */ }
             }
         }
-    } catch (e) { /* ignore DOM errors in older browsers */ }
+    } catch (e) { /* ignore DOM exceptions */ }
     // Modal open/close handlers
     const manageBtn = document.getElementById('cookie-manage');
     const modal = document.getElementById('cookie-modal');

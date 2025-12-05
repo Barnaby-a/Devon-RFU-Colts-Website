@@ -25,9 +25,9 @@
 		</select>
 
 		<div id="club-code-wrap" style="display:none;margin-top:8px;">
-			<label for="club_code">Club code</label>
-			<input type="text" id="club_code" name="club_code" placeholder="Enter club code">
-			<p style="font-size:12px;color:#9ea79a;margin-top:6px;">Players and coaches must provide a valid club code.</p>
+			<label for="club_code">Club code (optional)</label>
+			<input type="text" id="club_code" name="club_code" placeholder="Enter club code (if known)">
+			<p style="font-size:12px;color:#9ea79a;margin-top:6px;">Provide a club code if known — validation is not enforced.</p>
 		</div>
 
 		<button type="submit">Sign Up</button>
@@ -42,10 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (!acct) return;
 		if (acct.value === 'player' || acct.value === 'coach') {
 			wrap.style.display = 'block';
-			if (code) code.setAttribute('required', 'required');
 		} else {
 			wrap.style.display = 'none';
-			if (code) code.removeAttribute('required');
 		}
 	}
 	if (acct) acct.addEventListener('change', update);

@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Database Tables{% endblock %}
 
 {% block content %}
+<section class="content-wrap">
+	<h1>Database Tables</h1>
+
+	<h2 style="margin-top:18px">Matches</h2>
+	<div class="admin-card">
+		<table class="admin-matches-table">
+			<thead>
+				<tr><th>ID</th><th>Home</th><th>Away</th><th>Date/Time (UTC)</th><th>Location</th><th>Score</th></tr>
+			</thead>
+			<tbody>
+				{% for m in matches %}
+				<tr>
+					<td>{{ m.id }}</td>
+					<td>{{ m.home_team.name if m.home_team else m.home_team_id }}</td>
+					<td>{{ m.away_team.name if m.away_team else m.away_team_id }}</td>
+					<td>{{ m.date_time.strftime('%Y-%m-%d %H:%M') }}</td>
+					<td>{{ m.location or '' }}</td>
+					<td>{% if m.home_score is not none and m.away_score is not none %}{{ m.home_score }} - {{ m.away_score }}{% else %}upcoming{% endif %}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+
+</section>
 
 {% endblock %}

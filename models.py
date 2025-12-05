@@ -40,15 +40,6 @@ class User(UserMixin, db.Model):
         self.club_code = code
 
 
-class Club(db.Model):
-    __tablename__ = 'club'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    code = db.Column(db.String(64), unique=True, nullable=False)
-
-    def __repr__(self):
-        return f"<Club {self.name} ({self.code})>"
-
 
 class Team(db.Model):
     __tablename__ = 'team'

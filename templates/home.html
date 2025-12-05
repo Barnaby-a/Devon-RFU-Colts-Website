@@ -4,17 +4,103 @@
 
 {% block content %}
 <section class="hero-banner">
-	<img src="../static/drfuc-homeslide.jpg" alt="Devon RFU Colts Banner" id="home-banner">
+	<img src="{{ url_for('static', filename='drfuc-homeslide.jpg') }}" alt="Devon RFU Colts Banner" id="home-banner">
 	<div class="hero-text hero-left">
 		<h1>THE HEART OF <span class="highlight-green">YOUTH</span></h1>
 		<h1>RUGBY IN <span class="highlight-green">DEVON</span></h1>
 	</div>
-	<div class="hero-ctas-wrap">
-		<div class="hero-ctas">
-			<a href="/overview" class="hero-cta hero-cta-primary">What We're About</a>
-			<a href="/fixtures-results" class="hero-cta hero-cta-outline">What's On</a>
+	<div class="hero-btns-wrap">
+		<div class="hero-btns">
+			<a href="/overview" class="hero-btn hero-btn-primary">What We're About</a>
+			<a href="/fixtures-results" class="hero-btn hero-btn-outline">What's On</a>
+		</div>
+	</div>
+</section>
+ 
+<!-- Next Match card (home) -->
+<section class="next-match-section content-wrap">
+	<div class="next-match-card">
+		<div class="nm-left">
+			<div class="nm-title">Next Match</div>
+			{% if next_match %}
+				<div class="nm-line nm-teams">{{ next_match.home_team.name }} vs {{ next_match.away_team.name }}</div>
+				<div class="nm-line nm-datetime">{{ next_match.date_time.strftime('%a %d %b %Y %H:%M') }}</div>
+				<div class="nm-line nm-location">{{ next_match.location or 'TBD' }}</div>
+			{% else %}
+				<div class="nm-line">No upcoming matches.</div>
+			{% endif %}
+		</div>
+
+		<div class="nm-center">
+			{% if next_match %}
+			<div class="nm-logos">
+				<img class="team-logo nm-logo" src="{{ url_for('static', filename='team-logos/' + (next_match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ next_match.home_team.name }} logo">
+				<div class="nm-vs">vs</div>
+				<img class="team-logo nm-logo" src="{{ url_for('static', filename='team-logos/' + (next_match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ next_match.away_team.name }} logo">
+			</div>
+			{% endif %}
+		</div>
+
+		<div class="nm-right">
+			{% if next_match %}
+			<div class="nm-countdown" data-datetime="{{ next_match.date_time.isoformat() }}Z">
+				<span class="cd-val cd-days">--</span>
+				<span class="cd-sep">d</span>
+				<span class="cd-val cd-hours">--</span>
+				<span class="cd-sep">h</span>
+				<span class="cd-val cd-mins">--</span>
+				<span class="cd-sep">m</span>
+				<span class="cd-val cd-secs">--</span>
+				<div class="cd-label">until kick-off</div>
+			</div>
+			<a href="{{ url_for('fixtures_results') }}" class="hero-btn hero-btn-outline nm-btn">See all fixtures</a>
+			{% else %}
+			<a href="{{ url_for('fixtures_results') }}" class="hero-btn hero-btn-primary nm-btn">View fixtures</a>
+			{% endif %}
 		</div>
 	</div>
 </section>
 
+<!-- Recent results (last 3) -->
+<section class="recent-results content-wrap">
+	<h2>Latest Results</h2>
+	<div class="match-list">
+		{% for match in last_results %}
+		<article class="match-card">
+			<div class="left-pane">
+				<img src="{{ url_for('static', filename='team-logos/' ~ (match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.home_team.name }} logo" class="team-logo">
+				{% if match.home_score is not none and match.away_score is not none %}
+					{% set result = 'win' if match.home_score > match.away_score else ('loss' if match.home_score < match.away_score else 'draw') %}
+					<div class="score-box {{ result }}">
+						<div class="score-text">{{ match.home_score }} - {{ match.away_score }}</div>
+					</div>
+				{% else %}
+					<div class="score-box scheduled">
+						<div class="top">{{ match.date_time.strftime('%d %b') }}</div>
+						<div class="bottom">{{ match.date_time.strftime('%H:%M') }}</div>
+					</div>
+				{% endif %}
+				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
+			</div>
+
+			<div class="ribbon ribbon-home">HOME</div>
+
+			<div class="match-main">
+				<div class="match-left">
+					<div class="line line-title">{{ match.home_team.name }} vs {{ match.away_team.name }}</div>
+					<div class="line line-meta">{{ match.date_time.strftime('%H:%M') }}, {{ match.date_time.strftime('%a %d %b %Y') }}</div>
+					<div class="line line-location">{{ match.location or 'TBC' }}</div>
+				</div>
+				<div class="match-right">
+					<a class="btn-stats" href="{{ url_for('stats_centre') }}?match_id={{ match.id }}">Stats</a>
+				</div>
+			</div>
+		</article>
+		{% else %}
+			<p>No recent results available.</p>
+		{% endfor %}
+	</div>
+</section>
+
+<script src="{{ url_for('static', filename='js/next_match.js') }}"></script>
 {% endblock %}

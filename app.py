@@ -8,9 +8,9 @@ from flask_login import logout_user, current_user, login_required, login_user
 from extensions import db, login_manager
 #from decorators import access_level_required
 
-
+#setup
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"  # simple file DB [web:28]
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db" 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "change-this-secret-key"
 
@@ -21,7 +21,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-from models import User, Club, Team, Match
+from models import User, Team, Match
 from datetime import datetime
 import os
 
@@ -64,7 +64,20 @@ def load_user(user_id):
 # Defining the Home page route
 @app.route("/")
 def home():
-    return render_template("home.html")
+    # fetch the next upcoming match (UTC) to show on the home page
+    now = datetime.utcnow()
+    try:
+        next_match = Match.query.filter(Match.date_time >= now).order_by(Match.date_time.asc()).first()
+        # last 3 completed results (most recent first)
+        last_results = Match.query.filter(
+            Match.home_score != None,
+            Match.away_score != None,
+            Match.date_time < now
+        ).order_by(Match.date_time.desc()).limit(3).all()
+    except Exception:
+        next_match = None
+        last_results = []
+    return render_template("home.html", next_match=next_match, last_results=last_results, now=now)
 
 # Defining the Overview page route
 @app.route("/overview")
@@ -109,10 +122,18 @@ def fixtures_results():
 def stats_centre():
     return render_template("stats_centre.html")
 
-# Defining the Tables page route
+# Defining the Tables page route (show non-sensitive DB tables to admins)
 @app.route("/tables")
+@login_required
 def tables():
-    return render_template("tables.html")
+    if not _is_admin(current_user):
+        flash('You do not have access to view database tables.', 'danger')
+        return redirect(url_for('dashboard'))
+    try:
+        matches = Match.query.order_by(Match.date_time.desc()).all()
+    except Exception:
+        matches = []
+    return render_template("tables.html", matches=matches)
 
 # Defining the News page route
 @app.route("/news")
@@ -316,36 +337,20 @@ def sign_up():
             flash("Email and password are required.", "danger")
             return render_template("signup.html")
 
-        # If player/coach they must provide a club code
-        if account_type in ('player', 'coach') and not club_code:
-            flash("Players and coaches must provide a club code.", 'danger')
-            return render_template("signup.html")
 
         existing = User.query.filter_by(email=email).first()
         if existing:
             flash("An account with that email already exists.", "danger")
             return render_template("signup.html")
 
-        # If a club code was provided, ensure it exists in Club table
-        club_obj = None
-        if club_code:
-            club_obj = Club.query.filter_by(code=club_code).first()
-            if not club_obj and account_type in ('player', 'coach'):
-                flash('Invalid club code provided.', 'danger')
-                return render_template('signup.html')
-
         # Create user
         user = User(email=email)
         user.set_password(password)
         user.set_name(name if name else email)
         user.account_type = account_type
-        if club_obj:
-            user.set_club(club_obj.name)
-            user.set_club_code(club_obj.code)
-        else:
-            # non-player/coach or no matching club -> store nothing
-            user.set_club("")
-            user.set_club_code("")
+        # Store any provided club_code as free-text (no DB validation)
+        user.set_club("")
+        user.set_club_code(club_code)
         user.set_created_by("self")
 
         # Persist

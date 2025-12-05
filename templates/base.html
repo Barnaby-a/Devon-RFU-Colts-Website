@@ -21,11 +21,13 @@
             <a class="nav-buttons" href="/overview">Overview</a>
             <a class="nav-buttons" href="/leaderboards">Leaderboards</a>
             <a class="nav-buttons" href="/fixtures-results">Fixtures & Results</a>
-            <a class="nav-buttons" href="/tables">Tables</a>
-            {% if current_user.is_authenticated and (current_user.is_superadmin() or (current_user.access_level|int >= 2)) %}
-                <a class="nav-buttons" href="/admin">Admin</a>
-            {% else %}
-                <a class="nav-buttons" href="/dashboard">Dashboard</a>
+            {% if current_user.is_authenticated %}
+                <a class="nav-buttons" href="/tables">Tables</a>
+                {% if current_user.is_superadmin() or (current_user.access_level|int >= 2) %}
+                    <a class="nav-buttons" href="/admin">Admin</a>
+                {% else %}
+                    <a class="nav-buttons" href="/dashboard">Dashboard</a>
+                {% endif %}
             {% endif %}
         </nav>
             
@@ -70,10 +72,12 @@
                     <a href="/overview" class="alt-links">Overview</a>
                     <a href="/leaderboards" class="alt-links">Leaderboards</a>
                     <a href="/news" class="alt-links">News</a>
-                    {% if current_user.is_authenticated and (current_user.is_superadmin() or (current_user.access_level|int >= 2)) %}
-                        <a href="/admin" class="alt-links">Admin</a>
-                    {% else %}
-                        <a href="/dashboard" class="alt-links">Dashboard</a>
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_superadmin() or (current_user.access_level|int >= 2) %}
+                            <a href="/admin" class="alt-links">Admin</a>
+                        {% else %}
+                            <a href="/dashboard" class="alt-links">Dashboard</a>
+                        {% endif %}
                     {% endif %}
             </div>
 

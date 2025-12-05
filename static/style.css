@@ -12,6 +12,13 @@
     --hero-cta-gap: 14px;
 }
 
+/* Page content wrapper used across pages to provide consistent horizontal margins */
+.content-wrap {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
 /* Base */
 body {
     color: var(--white);
@@ -184,6 +191,22 @@ body {
     background-color: #23303a;
     color: #dff4ff;
     border: 1px solid rgba(0,123,255,0.08);
+}
+
+/* ===================== */
+/* Layout: Sticky footer  */
+/* Ensures footer sits at bottom when content is short */
+/* Uses a simple column flex layout where <main> grows to fill space */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex: 1 0 auto;
 }
 
 /* ===================== */
@@ -389,11 +412,28 @@ body {
 .btn-stats:hover { background: rgba(0,167,85,0.08); }
 
 @media (max-width:900px) {
-    .match-card { flex-direction: column; align-items: stretch; }
-    .match-card .left-pane { width: 100%; min-width: auto; justify-content: flex-start; }
-    .ribbon { width: 100%; writing-mode: horizontal-tb; transform: none; }
-    .match-main { flex-direction: column; gap: 8px; }
-    .match-right { justify-content: flex-end; }
+    /* keep a compact left-to-right layout rather than stacking vertically */
+    .match-card { flex-direction: row; align-items: center; padding: 10px; gap: 10px; }
+    .match-card .left-pane { flex: 0 0 120px; min-width: 0; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    /* shrink logos and score box so left pane fits */
+    .team-logo { width: 44px; height: 44px; padding: 4px; }
+    .score-box { width: 52px; height: 52px; }
+    .ribbon { writing-mode: vertical-rl; transform: rotate(180deg); padding: 6px 6px; }
+    .match-main { flex: 1 1 auto; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .match-left { flex: 1 1 auto; }
+    .match-right { flex: 0 0 auto; }
+}
+
+@media (max-width:480px) {
+    /* tighter spacing on very small screens but keep row layout */
+    .match-card { padding: 8px; gap: 8px; }
+    .match-card .left-pane { flex: 0 0 100px; gap:6px; }
+    .team-logo { width: 36px; height: 36px; }
+    .score-box { width: 44px; height: 44px; }
+    .line-title { font-size: 0.98rem; }
+    .line-meta { font-size: 0.9rem; }
+    .line-location { font-size: 0.85rem; }
+    .btn-stats { padding: 6px 10px; font-size: 0.9rem; }
 }
 
 /* Cookie consent (site-wide UI) */

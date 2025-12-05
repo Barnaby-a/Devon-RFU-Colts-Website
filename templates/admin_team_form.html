@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Team Editor{% endblock %}
+
+{% block content %}
+<div class="content-wrap admin-match-form" style="max-width:720px;margin:30px auto;color:white;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <a href="{{ url_for('admin_teams') }}" onclick="event.preventDefault(); history.back();" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
+    <h1 style="margin:0">{{ 'Edit Team' if team else 'Create Team' }}</h1>
+  </div>
+  <form method="post">
+    <label for="name">Team name</label>
+    <input type="text" name="name" id="name" value="{% if team %}{{ team.name }}{% endif %}" required>
+
+    <label for="code">Short code (optional)</label>
+    <input type="text" name="code" id="code" value="{% if team %}{{ team.code }}{% endif %}">
+
+    <label for="logo_filename">Logo filename (place file under `static/team-logos/`)</label>
+    <input type="text" name="logo_filename" id="logo_filename" value="{% if team %}{{ team.logo_filename }}{% endif %}">
+
+    <div class="admin-match-actions">
+      <button class="hero-cta hero-cta-primary" type="submit">Save</button>
+      <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_teams') }}">Cancel</a>
+    </div>
+
+    <p class="admin-help">Tip: upload images to <code>static/team-logos/</code> and put the filename above (e.g. <code>devon.png</code>).</p>
+  </form>
+</div>
+{% endblock %}

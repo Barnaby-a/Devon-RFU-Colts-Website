@@ -8,6 +8,21 @@
 <div id="admin-dashboard-wrap" style="max-width:980px;margin:36px auto;color:white;padding:18px;">
     <h1>Admin Dashboard</h1>
     <p>Welcome back, {{ current_user.name }}. Use the admin tools to manage the site.</p>
-    
+    <div style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap">
+        <div style="background:#151515;padding:14px;border-radius:10px;min-width:220px;flex:1;">
+            <h3 style="margin:0 0 8px 0">Matches</h3>
+            <p style="margin:0;color:#cfcfcf">Total: <strong>{{ match_count }}</strong></p>
+            <p style="margin:0;color:#cfcfcf">Upcoming: <strong>{{ upcoming_count }}</strong> — Past: <strong>{{ past_count }}</strong></p>
+            <p style="margin-top:10px"><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_matches') }}">Manage matches</a></p>
+        </div>
+
+        <div style="background:#151515;padding:14px;border-radius:10px;min-width:220px;flex:1;">
+            <h3 style="margin:0 0 8px 0">Teams</h3>
+            <p style="margin:0;color:#cfcfcf">Total teams: <strong>{{ team_count }}</strong></p>
+            <p style="margin-top:10px"><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_teams') }}">Manage teams</a></p>
+            <p style="margin-top:8px;color:#8a8a8a">(Teams management not implemented yet; add via Flask shell or ask me to add UI.)</p>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

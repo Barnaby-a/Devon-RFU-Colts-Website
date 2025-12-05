@@ -1,6 +1,7 @@
 from extensions import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,4 +48,47 @@ class Club(db.Model):
 
     def __repr__(self):
         return f"<Club {self.name} ({self.code})>"
+
+
+class Team(db.Model):
+    __tablename__ = 'team'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    code = db.Column(db.String(64), unique=True, nullable=True)
+    logo_filename = db.Column(db.String(256), nullable=True)
+
+    def __repr__(self):
+        return f"<Team {self.name}>"
+
+
+class Match(db.Model):
+    __tablename__ = 'match'
+    id = db.Column(db.Integer, primary_key=True)
+    home_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    away_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    date_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    location = db.Column(db.String(255), nullable=True)
+    home_score = db.Column(db.Integer, nullable=True)
+    away_score = db.Column(db.Integer, nullable=True)
+
+    # relationships
+    home_team = db.relationship('Team', foreign_keys=[home_team_id], backref='home_matches')
+    away_team = db.relationship('Team', foreign_keys=[away_team_id], backref='away_matches')
+
+    def is_past(self):
+        if self.home_score is not None and self.away_score is not None:
+            return True
+        return self.date_time < datetime.utcnow()
+
+    def result_for_home(self):
+        if self.home_score is None or self.away_score is None:
+            return None
+        if self.home_score > self.away_score:
+            return 'win'
+        if self.home_score < self.away_score:
+            return 'loss'
+        return 'draw'
+
+    def __repr__(self):
+        return f"<Match {self.id}: {self.home_team_id} vs {self.away_team_id} @ {self.date_time}>"
     

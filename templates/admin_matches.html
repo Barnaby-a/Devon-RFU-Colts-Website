@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Matches{% endblock %}
+
+{% block content %}
+<div class="content-wrap" style="max-width:980px;margin:30px auto;color:white;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <a href="{{ url_for('admin_dashboard') }}" onclick="event.preventDefault(); history.back();" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
+    <h1 style="margin:0">Manage Matches</h1>
+  </div>
+  <p><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_match_new') }}">Create new match</a></p>
+
+  <table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr style="text-align:left;color:#cfcfcf;border-bottom:1px solid rgba(255,255,255,0.04)">
+        <th style="padding:8px">Date & time</th>
+        <th style="padding:8px">Fixture</th>
+        <th style="padding:8px">Location</th>
+        <th style="padding:8px">Score</th>
+        <th style="padding:8px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for match in matches %}
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.02)">
+        <td style="padding:8px;vertical-align:top">{{ match.date_time.strftime('%a %d %b %Y %H:%M') }}</td>
+        <td style="padding:8px;vertical-align:top">{{ match.home_team.name }} vs {{ match.away_team.name }}</td>
+        <td style="padding:8px;vertical-align:top">{{ match.location or 'TBC' }}</td>
+        <td style="padding:8px;vertical-align:top">{% if match.home_score is not none and match.away_score is not none %}{{ match.home_score }} - {{ match.away_score }}{% else %}—{% endif %}</td>
+        <td style="padding:8px;vertical-align:top">
+          <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_match_edit', match_id=match.id) }}">Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

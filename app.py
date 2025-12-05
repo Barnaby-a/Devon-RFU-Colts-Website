@@ -21,7 +21,8 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-from models import User, Club
+from models import User, Club, Team, Match
+from datetime import datetime
 import os
 
 # sponsor image extensions we'll accept
@@ -92,7 +93,16 @@ def leaderboards():
 # Defining the Fixtures & Results page route
 @app.route("/fixtures-results")
 def fixtures_results():
-    return render_template("fixtures_results.html")
+    # load matches and split into upcoming and past
+    now = datetime.utcnow()
+    try:
+        upcoming = Match.query.filter(Match.date_time >= now).order_by(Match.date_time.asc()).all()
+        past = Match.query.filter(Match.date_time < now).order_by(Match.date_time.desc()).all()
+    except Exception:
+        upcoming = []
+        past = []
+
+    return render_template("fixtures_results.html", upcoming=upcoming, past=past, now=now)
 
 # Defining the Stats centre page route
 @app.route("/stats-centre")
@@ -138,7 +148,158 @@ def admin_dashboard():
     if not _is_admin(current_user):
         flash('You do not have access to the admin area.', 'danger')
         return redirect(url_for('dashboard'))
-    return render_template('dashboard_admin.html')
+    # provide some quick counts for admin overview
+    try:
+        team_count = Team.query.count()
+        match_count = Match.query.count()
+        upcoming_count = Match.query.filter(Match.date_time >= datetime.utcnow()).count()
+        past_count = Match.query.filter(Match.date_time < datetime.utcnow()).count()
+    except Exception:
+        team_count = match_count = upcoming_count = past_count = 0
+    return render_template('dashboard_admin.html', team_count=team_count, match_count=match_count, upcoming_count=upcoming_count, past_count=past_count)
+
+
+# Admin: list and manage matches
+@app.route('/admin/matches')
+@login_required
+def admin_matches():
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    # show all matches
+    matches = Match.query.order_by(Match.date_time.desc()).all()
+    teams = Team.query.order_by(Team.name).all()
+    return render_template('admin_matches.html', matches=matches, teams=teams)
+
+
+@app.route('/admin/teams')
+@login_required
+def admin_teams():
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    teams = Team.query.order_by(Team.name).all()
+    return render_template('admin_teams.html', teams=teams)
+
+
+@app.route('/admin/team/new', methods=['GET', 'POST'])
+@login_required
+def admin_team_new():
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    if request.method == 'POST':
+        name = (request.form.get('name') or '').strip()
+        code = (request.form.get('code') or '').strip()
+        logo = (request.form.get('logo_filename') or '').strip()
+        if not name:
+            flash('Team name is required.', 'danger')
+            return render_template('admin_team_form.html', team=None)
+        t = Team(name=name, code=code, logo_filename=logo)
+        try:
+            db.session.add(t)
+            db.session.commit()
+            flash('Team created.', 'success')
+            return redirect(url_for('admin_teams'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error creating team: {e}', 'danger')
+    return render_template('admin_team_form.html', team=None)
+
+
+@app.route('/admin/team/<int:team_id>/edit', methods=['GET', 'POST'])
+@login_required
+def admin_team_edit(team_id):
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    t = Team.query.get_or_404(team_id)
+    if request.method == 'POST':
+        t.name = (request.form.get('name') or '').strip()
+        t.code = (request.form.get('code') or '').strip()
+        t.logo_filename = (request.form.get('logo_filename') or '').strip()
+        if not t.name:
+            flash('Team name is required.', 'danger')
+            return render_template('admin_team_form.html', team=t)
+        try:
+            db.session.commit()
+            flash('Team updated.', 'success')
+            return redirect(url_for('admin_teams'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error updating team: {e}', 'danger')
+    return render_template('admin_team_form.html', team=t)
+
+
+@app.route('/admin/team/<int:team_id>/delete', methods=['POST'])
+@login_required
+def admin_team_delete(team_id):
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    t = Team.query.get_or_404(team_id)
+    try:
+        db.session.delete(t)
+        db.session.commit()
+        flash('Team deleted.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting team: {e}', 'danger')
+    return redirect(url_for('admin_teams'))
+
+
+@app.route('/admin/match/new', methods=['GET', 'POST'])
+@login_required
+def admin_match_new():
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    teams = Team.query.order_by(Team.name).all()
+    if request.method == 'POST':
+        try:
+            home_team_id = int(request.form.get('home_team'))
+            away_team_id = int(request.form.get('away_team'))
+            dt_raw = request.form.get('date_time')
+            # datetime-local comes in like '2025-12-05T14:30'
+            date_time = datetime.fromisoformat(dt_raw) if dt_raw else datetime.utcnow()
+            location = request.form.get('location') or ''
+            m = Match(home_team_id=home_team_id, away_team_id=away_team_id, date_time=date_time, location=location)
+            db.session.add(m)
+            db.session.commit()
+            flash('Match created.', 'success')
+            return redirect(url_for('admin_matches'))
+        except Exception as e:
+            flash(f'Error creating match: {e}', 'danger')
+    return render_template('admin_match_form.html', teams=teams, match=None)
+
+
+@app.route('/admin/match/<int:match_id>/edit', methods=['GET', 'POST'])
+@login_required
+def admin_match_edit(match_id):
+    if not _is_admin(current_user):
+        flash('You do not have access to the admin area.', 'danger')
+        return redirect(url_for('dashboard'))
+    m = Match.query.get_or_404(match_id)
+    teams = Team.query.order_by(Team.name).all()
+    if request.method == 'POST':
+        try:
+            m.home_team_id = int(request.form.get('home_team'))
+            m.away_team_id = int(request.form.get('away_team'))
+            dt_raw = request.form.get('date_time')
+            m.date_time = datetime.fromisoformat(dt_raw) if dt_raw else m.date_time
+            m.location = request.form.get('location') or ''
+            # scores may be empty
+            hs = request.form.get('home_score')
+            ascore = request.form.get('away_score')
+            m.home_score = int(hs) if hs not in (None, '', 'None') else None
+            m.away_score = int(ascore) if ascore not in (None, '', 'None') else None
+            db.session.commit()
+            flash('Match updated.', 'success')
+            return redirect(url_for('admin_matches'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error updating match: {e}', 'danger')
+    return render_template('admin_match_form.html', teams=teams, match=m)
 
 # Defining the Sign Up page route (GET shows form, POST creates user)
 @app.route("/sign-up", methods=["GET", "POST"])

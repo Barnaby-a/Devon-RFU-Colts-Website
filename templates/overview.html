@@ -16,52 +16,48 @@
 </section>
 
 <section class="overview-content" id="programs">
+	<div class="content-wrap overview-header">
+		<h2 class="objective-title">Our Objective</h2>
+		
+	</div>
 	<div class="container">
 		<div class="overview-column">
 			<div class="overview-card">
-				<h2>Our Mission</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+				<h2>Develop Skills</h2>
+				<p>Deliver structured coaching that improves technique, decision-making and confidence on the pitch.</p>
 			</div>
 
 			<div class="overview-card">
-				<h2>Community</h2>
-				<p>Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
+				<h2>Foster Community</h2>
+				<p>Create inclusive opportunities for players, families and clubs to connect, support and grow together.</p>
 			</div>
 		</div>
 
 		<div class="overview-column">
 			<div class="overview-card">
-				<h2>Training</h2>
-				<p>Maecenas ipsum velit, consectetuer eu lobortis ut, dictum at lorem. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+				<h2>Structured Training</h2>
+				<p>Provide regular, age-appropriate training plans focused on safe development and long-term player progression.</p>
 			</div>
 
 			<div class="overview-card">
-				<h2>Fixtures & Events</h2>
-				<p>Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero.</p>
+				<h2>Competitive Fixtures</h2>
+				<p>Organise fixtures and events that offer competitive experience while prioritising wellbeing and fair play.</p>
 			</div>
 		</div>
 	</div>
 </section>
-	</div>
-</section>
 
-<!-- Sponsors section inserted at end of overview -->
-<section id="sponsors" class="sponsors-banner" aria-label="Our sponsors">
+<section id="sponsors" class="sponsors-banner sponsors-section" aria-label="Our sponsors">
+	<div class="content-wrap">
+		<h1>OUR SPONSORS</h1>
+	</div>
 	<div class="sponsors-track">
-		{# Render sponsor files provided by the view; repeat the list to make the marquee seamless #}
-		{% if sponsor_files|length > 0 %}
-			{% for fn in sponsor_files %}
-				<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/' ~ fn) }}" alt="{{ fn.rsplit('.', 1)[0] }}" class="sponsor-logo"></div>
-			{% endfor %}
-			{% for fn in sponsor_files %}
-				<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/' ~ fn) }}" alt="{{ fn.rsplit('.', 1)[0] }}" class="sponsor-logo"></div>
-			{% endfor %}
-		{% else %}
-			<!-- Fallback placeholder if no sponsors present -->
-			<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/sponsor-1.svg') }}" alt="Sponsor placeholder" class="sponsor-logo"></div>
-			<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/sponsor-2.svg') }}" alt="Sponsor placeholder" class="sponsor-logo"></div>
-			<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/sponsor-3.svg') }}" alt="Sponsor placeholder" class="sponsor-logo"></div>
-		{% endif %}
+		{% for fn in sponsor_files %}
+			<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/' ~ fn) }}" alt="{{ fn.rsplit('.', 1)[0] }}" class="sponsor-logo"></div>
+		{% endfor %}
+		{% for fn in sponsor_files %}
+			<div class="sponsor-item"><img src="{{ url_for('static', filename='sponsors/' ~ fn) }}" alt="{{ fn.rsplit('.', 1)[0] }}" class="sponsor-logo"></div>
+		{% endfor %}
 	</div>
 </section>
 

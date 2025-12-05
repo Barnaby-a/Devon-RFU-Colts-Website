@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Teams{% endblock %}
+
+{% block content %}
+<div class="content-wrap" style="max-width:980px;margin:30px auto;color:white;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <a href="{{ url_for('admin_dashboard') }}" onclick="event.preventDefault(); history.back();" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
+    <h1 style="margin:0">Manage Teams</h1>
+  </div>
+  <p><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_team_new') }}">Create new team</a></p>
+
+  <table class="admin-matches-table" style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr>
+        <th style="padding:8px">Name</th>
+        <th style="padding:8px">Code</th>
+        <th style="padding:8px">Logo</th>
+        <th style="padding:8px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in teams %}
+      <tr>
+        <td style="padding:8px">{{ t.name }}</td>
+        <td style="padding:8px">{{ t.code or '—' }}</td>
+        <td style="padding:8px">{% if t.logo_filename %}<img src="{{ url_for('static', filename='team-logos/' ~ t.logo_filename) }}" alt="{{ t.name }}" style="height:36px;">{% else %}—{% endif %}</td>
+        <td style="padding:8px">
+          <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_team_edit', team_id=t.id) }}">Edit</a>
+          <form method="post" action="{{ url_for('admin_team_delete', team_id=t.id) }}" style="display:inline-block;margin-left:8px" onsubmit="return confirm('Delete team? This cannot be undone.')">
+            <button type="submit" class="hero-cta hero-cta-outline" style="background:transparent;border-color:#b04b4b;color:#b04b4b;padding:6px 8px">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

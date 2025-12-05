@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../static/style.css">
-        <script src="../static/js/header.js" defer></script>
-        <link rel="icon" type="image/svg" href="../static/favicon.svg">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('static', filename='js/header.js') }}" defer></script>
+        <link rel="icon" type="image/svg" href="{{ url_for('static', filename='favicon.svg') }}">
         <title>{% block title %}Devon RFU Colts{% endblock %} - Devon RFU Colts</title>
     </head>
 
@@ -13,7 +13,7 @@
 
     <header id="main-header">
         <div id="head-logo-wrap">
-            <a href="/"><img src="../static/favicon.svg" alt="Devon RFU Logo" id="head-logo"></a>
+            <a href="/"><img src="{{ url_for('static', filename='favicon.svg') }}" alt="Devon RFU Logo" id="head-logo"></a>
         </div>
 
         <nav id="main-nav-buttons">
@@ -58,7 +58,7 @@
         <div id="footer-content-wrap">
             <div id="footer-section-1">
             <div id="footer-sect-1-fract-1">
-                    <img src="../static/favicon.svg" alt="Devon RFU Logo" id="footer-logo">
+                    <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Devon RFU Logo" id="footer-logo">
             </div> 
             
             <div id="footer-sect-1-fract-2">
@@ -81,9 +81,9 @@
             <div id="footer-sect-1-fract-4">
                     <h2>FOLLOW THE ACTION</h2>
                     <p>Stay updated with match action, team news & more. Join the Devon Rugby community!</p>
-                    <a class="links"><img src="../static/PLACEEHOLDER.xyz" alt="Facebook Icon" id="Facebook-icon"></a>
-                    <a class="links"><img src="../static/PLACEEHOLDER.xyz" alt="X Icon" id="x-icon"></a>
-                    <a class="links"><img src="../static/PLACEEHOLDER.xyz" alt="Instagram Icon" id="instagram-icon"></a>
+                    <a class="links"><img src="{{ url_for('static', filename='PLACEEHOLDER.xyz') }}" alt="Facebook Icon" id="Facebook-icon"></a>
+                    <a class="links"><img src="{{ url_for('static', filename='PLACEEHOLDER.xyz') }}" alt="X Icon" id="x-icon"></a>
+                    <a class="links"><img src="{{ url_for('static', filename='PLACEEHOLDER.xyz') }}" alt="Instagram Icon" id="instagram-icon"></a>
             </div>
             </div>
 

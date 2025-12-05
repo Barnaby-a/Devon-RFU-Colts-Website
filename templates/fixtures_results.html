@@ -1,7 +1,81 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Fixtures & Results{% endblock %}
 
 {% block content %}
+
+<section class="fixtures-section content-wrap">
+	<h1>Fixtures & Results</h1>
+
+	{% if upcoming %}
+	<h2>Upcoming Matches</h2>
+	<div class="match-list">
+		{% for match in upcoming %}
+		<article class="match-card">
+			<div class="left-pane">
+				<img src="{{ url_for('static', filename='team-logos/' ~ (match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.home_team.name }} logo" class="team-logo">
+				<div class="score-box scheduled">
+					<div class="top">{{ match.date_time.strftime('%d %b') }}</div>
+					<div class="bottom">{{ match.date_time.strftime('%H:%M') }}</div>
+				</div>
+				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
+			</div>
+
+			<div class="ribbon ribbon-home">HOME</div>
+
+			<div class="match-main">
+				<div class="match-left">
+					<div class="line line-title">{{ match.home_team.name }} vs {{ match.away_team.name }}</div>
+					<div class="line line-meta">{{ match.date_time.strftime('%H:%M') }}, {{ match.date_time.strftime('%a %d %b %Y') }}</div>
+					<div class="line line-location">{{ match.location or 'TBC' }}</div>
+				</div>
+				<div class="match-right">
+					<!-- no stats for upcoming -->
+				</div>
+			</div>
+		</article>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	{% if past %}
+	<h2>Past Matches</h2>
+	<div class="match-list">
+		{% for match in past %}
+		<article class="match-card">
+			<div class="left-pane">
+				<img src="{{ url_for('static', filename='team-logos/' ~ (match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.home_team.name }} logo" class="team-logo">
+				{% if match.home_score is not none and match.away_score is not none %}
+					{% set result = 'win' if match.home_score > match.away_score else ('loss' if match.home_score < match.away_score else 'draw') %}
+					<div class="score-box {{ result }}">
+						<div class="score-text">{{ match.home_score }} - {{ match.away_score }}</div>
+					</div>
+				{% else %}
+					<div class="score-box scheduled">
+						<div class="top">{{ match.date_time.strftime('%d %b') }}</div>
+						<div class="bottom">{{ match.date_time.strftime('%H:%M') }}</div>
+					</div>
+				{% endif %}
+				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
+			</div>
+
+			<div class="ribbon ribbon-home">HOME</div>
+
+			<div class="match-main">
+				<div class="match-left">
+					<div class="line line-title">{{ match.home_team.name }} vs {{ match.away_team.name }}</div>
+					<div class="line line-meta">{{ match.date_time.strftime('%H:%M') }}, {{ match.date_time.strftime('%a %d %b %Y') }}</div>
+					<div class="line line-location">{{ match.location or 'TBC' }}</div>
+				</div>
+				<div class="match-right">
+					<a class="btn-stats" href="{{ url_for('stats_centre') }}?match_id={{ match.id }}">Stats Centre</a>
+				</div>
+			</div>
+		</article>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+</section>
 
 {% endblock %}

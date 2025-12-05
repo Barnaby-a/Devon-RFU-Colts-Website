@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Match Editor{% endblock %}
+
+{% block content %}
+<div class="content-wrap admin-match-form" style="max-width:720px;margin:30px auto;color:white;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <a href="{{ url_for('admin_matches') }}" onclick="event.preventDefault(); history.back();" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
+    <h1 style="margin:0">{{ 'Edit Match' if match else 'Create Match' }}</h1>
+  </div>
+  <form method="post">
+    <label for="home_team">Home team</label>
+    <select name="home_team" id="home_team" required>
+      <option value="">-- choose team --</option>
+      {% for t in teams %}
+        <option value="{{ t.id }}" {% if match and match.home_team_id==t.id %}selected{% endif %}>{{ t.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="away_team">Away team</label>
+    <select name="away_team" id="away_team" required>
+      <option value="">-- choose team --</option>
+      {% for t in teams %}
+        <option value="{{ t.id }}" {% if match and match.away_team_id==t.id %}selected{% endif %}>{{ t.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="date_time">Date & time</label>
+    <input type="datetime-local" name="date_time" id="date_time" value="{% if match %}{{ match.date_time.strftime('%Y-%m-%dT%H:%M') }}{% endif %}">
+
+    <label for="location">Location</label>
+    <input type="text" name="location" id="location" value="{% if match %}{{ match.location }}{% endif %}">
+
+    <p style="margin-top:12px;font-weight:700;color:#cfcfcf">Scores (leave blank for upcoming fixtures)</p>
+    <label for="home_score">Home score</label>
+    <input type="number" name="home_score" id="home_score" min="0" value="{% if match and match.home_score is not none %}{{ match.home_score }}{% endif %}">
+
+    <label for="away_score">Away score</label>
+    <input type="number" name="away_score" id="away_score" min="0" value="{% if match and match.away_score is not none %}{{ match.away_score }}{% endif %}">
+
+    <div style="margin-top:12px;display:flex;gap:10px">
+      <button class="hero-cta hero-cta-primary" type="submit">Save</button>
+      <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_matches') }}">Cancel</a>
+    </div>
+  </form>
+
+  <p style="margin-top:14px;color:#cfcfcf">Tip: create teams first under the Teams table (if present) or add rows via the Flask shell. Team logos should be placed under <code>static/team-logos/</code>.</p>
+</div>
+{% endblock %}

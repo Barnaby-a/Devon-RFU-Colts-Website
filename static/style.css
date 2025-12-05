@@ -15,6 +15,11 @@
     --btn-gap: 14px;
 }
 
+/* Use border-box sizing everywhere to make width calculations predictable */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /* Page content wrapper used across pages to provide consistent horizontal margins */
 .content-wrap {
     max-width: 1100px;
@@ -266,6 +271,9 @@ main {
     border-radius: 8px;
     outline: none;
 }
+.admin-match-form input, .admin-match-form select {
+    max-width: 100%;
+}
 .admin-match-form input:focus,
 .admin-match-form select:focus {
     border-color: var(--brand-green);
@@ -277,6 +285,23 @@ main {
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+/* Ensure flex children inside admin form rows can shrink to fit container */
+.admin-match-form [style*="display:flex"] > div,
+.admin-match-form .admin-match-actions > * {
+    min-width: 0;
+}
+
+/* Tighter button sizing for admin forms */
+.admin-match-form .hero-btn {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+}
+
+/* Make outline buttons match primary sizing */
+.admin-match-form .hero-btn.hero-btn-outline {
+    border-width: 2px;
 }
 
 /* Smaller helper text in admin forms */

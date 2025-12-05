@@ -4,8 +4,9 @@
 
 {% block content %}
 <section class="content-wrap">
-    <div class="admin-header">
-        <h1>Leaderboards</h1>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <a href="{{ url_for('admin_dashboard') }}" onclick="(function(e){e.preventDefault();try{var r=document.referrer;if(r && new URL(r).origin===location.origin){history.back();}else{window.location=this.getAttribute('href');}}catch(err){window.location=this.getAttribute('href');}}).call(this,event);" class="hero-btn hero-btn-outline small" aria-label="Go back">Back</a>
+        <h1 style="margin:0">Leaderboards</h1>
     </div>
 
     <div class="admin-card" style="margin-top:12px;">

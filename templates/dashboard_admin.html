@@ -8,12 +8,19 @@
 <div id="admin-dashboard-wrap" style="max-width:980px;margin:36px auto;color:white;padding:18px;">
     <h1>Admin Dashboard</h1>
     <p>Welcome back, {{ current_user.name }}. Use the admin tools to manage the site.</p>
-    <div style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px;align-items:start;">
         <div style="background:#151515;padding:14px;border-radius:10px;min-width:220px;flex:1;">
             <h3 style="margin:0 0 8px 0">Matches</h3>
             <p style="margin:0;color:#cfcfcf">Total: <strong>{{ match_count }}</strong></p>
             <p style="margin:0;color:#cfcfcf">Upcoming: <strong>{{ upcoming_count }}</strong> — Past: <strong>{{ past_count }}</strong></p>
             <p style="margin-top:10px"><a class="hero-btn hero-btn-outline" href="{{ url_for('admin_matches') }}">Manage matches</a></p>
+        </div>
+
+        <div style="background:#151515;padding:14px;border-radius:10px;min-width:220px;flex:1;">
+            <h3 style="margin:0 0 8px 0">Leaderboards</h3>
+            <p style="margin:0;color:#cfcfcf">Manage league tables and standings.</p>
+            <p style="margin-top:10px"><a class="hero-btn hero-btn-outline" href="{{ url_for('admin_leaderboards') }}">Edit leaderboards</a></p>
+            <p style="margin-top:8px;color:#8a8a8a">Add rows manually; ranks are recalculated automatically by points scored.</p>
         </div>
 
         <div style="background:#151515;padding:14px;border-radius:10px;min-width:220px;flex:1;">

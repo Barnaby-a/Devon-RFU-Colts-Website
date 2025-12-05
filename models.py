@@ -85,15 +85,11 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     code = db.Column(db.String(64), unique=True, nullable=True)
-    # Optional separate codes for players and coaches to self-register
-    player_code = db.Column(db.String(64), unique=False, nullable=True)
-    coach_code = db.Column(db.String(64), unique=False, nullable=True)
     logo_filename = db.Column(db.String(256), nullable=True)
 
     # relationships (players and coaches)
     players = db.relationship('Player', backref='team', lazy='dynamic')
     coaches = db.relationship('User', secondary='team_coaches', backref=db.backref('coached_teams', lazy='dynamic'))
-    followers = db.relationship('User', secondary='user_followed_teams', backref=db.backref('followed_teams', lazy='dynamic'))
 
     def __repr__(self):
         return f"<Team {self.name}>"
@@ -104,14 +100,6 @@ team_coaches = db.Table(
     'team_coaches',
     db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
-)
-
-
-# users may follow teams (regular accounts can follow clubs/teams)
-user_followed_teams = db.Table(
-    'user_followed_teams',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True)
 )
 
 
@@ -162,4 +150,27 @@ class Match(db.Model):
 
     def __repr__(self):
         return f"<Match {self.id}: {self.home_team_id} vs {self.away_team_id} @ {self.date_time}>"
+
+
+class Leaderboard(db.Model):
+    __tablename__ = 'leaderboard'
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.String(200), nullable=False)
+    # rank will be computed after inserts (higher `pts_scored` => better rank)
+    rank = db.Column(db.Integer, nullable=True)
+    pl = db.Column(db.Integer, nullable=False, default=0)
+    w = db.Column(db.Integer, nullable=False, default=0)
+    l = db.Column(db.Integer, nullable=False, default=0)
+    d = db.Column(db.Integer, nullable=False, default=0)
+    pts_f = db.Column(db.Integer, nullable=False, default=0)
+    pts_ag = db.Column(db.Integer, nullable=False, default=0)
+    pts_diff = db.Column(db.Integer, nullable=False, default=0)
+    g_pts = db.Column(db.Integer, nullable=False, default=0)
+    b_pts = db.Column(db.Integer, nullable=False, default=0)
+    total = db.Column(db.Integer, nullable=False, default=0)
+    pts_scored = db.Column(db.Integer, nullable=False, default=0)
+    created_on = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<Leaderboard {self.id} team={self.team} rank={self.rank} pts_scored={self.pts_scored}>"
     

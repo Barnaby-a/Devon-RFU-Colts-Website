@@ -6,17 +6,10 @@
 <div class="content-wrap">
   <h1>Manage players for {{ team.name }}</h1>
 
-  <p><a class="hero-cta hero-cta-outline" href="{{ url_for('coach_team_edit', team_id=team.id) }}">Edit team settings</a></p>
-
   <h2>Existing players</h2>
   <ul>
     {% for p in players %}
-      <li>
-        {{ p.user.name }} ({{ p.user.email }}){% if p.squad_number %} — #{{ p.squad_number }}{% endif %}
-        <form method="post" action="{{ url_for('coach_player_delete', team_id=team.id, player_id=p.id) }}" style="display:inline-block;margin-left:8px;">
-          <button class="hero-btn hero-btn-outline" type="submit">Remove player</button>
-        </form>
-      </li>
+      <li>{{ p.user.name }} ({{ p.user.email }}){% if p.squad_number %} — #{{ p.squad_number }}{% endif %}</li>
     {% else %}
       <li>No players yet.</li>
     {% endfor %}

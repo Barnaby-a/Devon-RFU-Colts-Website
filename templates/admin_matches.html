@@ -8,13 +8,7 @@
     <a href="{{ url_for('admin_dashboard') }}" onclick="(function(e){e.preventDefault();try{var r=document.referrer;if(r && new URL(r).origin===location.origin){history.back();}else{window.location=this.getAttribute('href');}}catch(err){window.location=this.getAttribute('href');}}).call(this,event);" class="hero-cta hero-cta-outline small" aria-label="Go back">Back</a>
     <h1 style="margin:0">Manage Matches</h1>
   </div>
-  <p style="display:flex;gap:12px;align-items:center;">
-    <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_match_new') }}">Create new match</a>
-    <form method="get" style="margin:0;">
-      <input type="text" name="q" placeholder="Search teams or codes" value="{{ request.args.get('q','') }}" style="padding:6px;border-radius:6px;border:1px solid #333;background:#1e1e1e;color:#fff;" />
-      <button class="hero-cta hero-cta-outline" type="submit">Search</button>
-    </form>
-  </p>
+  <p><a class="hero-cta hero-cta-outline" href="{{ url_for('admin_match_new') }}">Create new match</a></p>
 
   <table style="width:100%;border-collapse:collapse">
     <thead>
@@ -35,9 +29,6 @@
         <td style="padding:8px;vertical-align:top">{% if match.home_score is not none and match.away_score is not none %}{{ match.home_score }} - {{ match.away_score }}{% else %}—{% endif %}</td>
         <td style="padding:8px;vertical-align:top">
           <a class="hero-cta hero-cta-outline" href="{{ url_for('admin_match_edit', match_id=match.id) }}">Edit</a>
-          <form method="post" action="{{ url_for('admin_match_delete', match_id=match.id) }}" style="display:inline-block;margin-left:8px;">
-            <button class="hero-cta hero-cta-outline" type="submit">Delete</button>
-          </form>
         </td>
       </tr>
       {% endfor %}

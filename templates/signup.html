@@ -17,47 +17,11 @@
 		<label for="name">Full name</label>
 		<input type="text" id="name" name="name">
 
-		<label for="account_type">Account type</label>
-		<select id="account_type" name="account_type">
-			<option value="regular" selected>Regular</option>
-			<option value="player">Player</option>
-			<option value="coach">Coach</option>
-		</select>
-
-		<div id="club-code-wrap" style="margin-top:8px; display:none;">
-			<label for="team_id">Join a team (optional)</label>
-			<select id="team_id" name="team_id">
-				<option value="">Do not join a team</option>
-				{% for team in teams %}
-					<option value="{{ team.id }}">{{ team.name }}{% if team.code %} (code required){% endif %}</option>
-				{% endfor %}
-			</select>
-			<label for="club_code">Team code (if joining)</label>
-			<input type="text" id="club_code" name="club_code" placeholder="Enter team code (if joining)">
-			<p style="font-size:12px;color:#9ea79a;margin-top:6px;">If you select a team, provide its code to be added as a player.</p>
+		<div id="club-code-wrap" style="margin-top:8px;">
+			<label for="club_code">Club code (optional)</label>
+			<input type="text" id="club_code" name="club_code" placeholder="Enter club code (if known)">
+			<p style="font-size:12px;color:#9ea79a;margin-top:6px;">Provide a club code if known — validation is not enforced.</p>
 		</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-	const acct = document.getElementById('account_type');
-	const wrap = document.getElementById('club-code-wrap');
-	function update() {
-		if (!acct) return;
-		if (acct.value === 'player' || acct.value === 'coach') {
-			wrap.style.display = 'block';
-		} else {
-			wrap.style.display = 'none';
-			// reset fields when hiding
-			const sel = document.getElementById('team_id');
-			const code = document.getElementById('club_code');
-			if (sel) sel.value = '';
-			if (code) code.value = '';
-		}
-	}
-	if (acct) acct.addEventListener('change', update);
-	update();
-});
-</script>
 
 		<button type="submit">Sign Up</button>
 	</form>

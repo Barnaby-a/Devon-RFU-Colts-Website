@@ -3,5 +3,33 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
+<section class="content-wrap">
+	<h1>Leaderboards</h1>
+	<div class="admin-card" style="margin-top:12px;">
+		<table class="admin-matches-table">
+			<thead>
+				<tr><th>Rank</th><th>Team</th><th>Pl</th><th>W</th><th>D</th><th>L</th><th>F</th><th>Ag</th><th>Diff</th><th>G</th><th>B</th><th>Total</th><th>Pts Scored</th></tr>
+			</thead>
+			<tbody>
+				{% for r in rows %}
+				<tr>
+					<td>{{ r.rank or '' }}</td>
+					<td>{{ r.team }}</td>
+					<td>{{ r.pl }}</td>
+					<td>{{ r.w }}</td>
+					<td>{{ r.d }}</td>
+					<td>{{ r.l }}</td>
+					<td>{{ r.pts_f }}</td>
+					<td>{{ r.pts_ag }}</td>
+					<td>{{ r.pts_diff }}</td>
+					<td>{{ r.g_pts }}</td>
+					<td>{{ r.b_pts }}</td>
+					<td>{{ r.total }}</td>
+					<td>{{ r.pts_scored }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
 {% endblock %}

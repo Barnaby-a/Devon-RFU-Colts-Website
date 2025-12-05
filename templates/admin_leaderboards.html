@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Leaderboards{% endblock %}
+
+{% block content %}
+<section class="content-wrap">
+    <div class="admin-header">
+        <h1>Leaderboards</h1>
+    </div>
+
+    <div class="admin-card" style="margin-top:12px;">
+        <h2 style="margin-top:0;">Add leaderboard row</h2>
+        <form method="post" action="/admin/leaderboards" class="admin-match-form">
+            <label>Team name</label>
+            <input type="text" name="team" required>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                <div style="flex:1"><label>Played (pl)</label><input type="number" name="pl" min="0"></div>
+                <div style="flex:1"><label>Won (w)</label><input type="number" name="w" min="0"></div>
+                <div style="flex:1"><label>Drawn (d)</label><input type="number" name="d" min="0"></div>
+                <div style="flex:1"><label>Lost (l)</label><input type="number" name="l" min="0"></div>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                <div style="flex:1"><label>For (pts_f)</label><input type="number" name="pts_f" min="0"></div>
+                <div style="flex:1"><label>Against (pts_ag)</label><input type="number" name="pts_ag" min="0"></div>
+                <div style="flex:1"><label>Points diff (pts_diff)</label><input type="number" name="pts_diff"></div>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                <div style="flex:1"><label>G points (g_pts)</label><input type="number" name="g_pts" min="0"></div>
+                <div style="flex:1"><label>B points (b_pts)</label><input type="number" name="b_pts" min="0"></div>
+                <div style="flex:1"><label>Total</label><input type="number" name="total" min="0"></div>
+            </div>
+
+            <label style="margin-top:8px;">Points scored (pts_scored)</label>
+            <input type="number" name="pts_scored" min="0">
+
+            <div class="admin-match-actions">
+                <button class="hero-btn hero-btn-primary" type="submit">Add row</button>
+            </div>
+        </form>
+    </div>
+
+    <h2 style="margin-top:18px">Current rows</h2>
+    <div class="admin-card">
+        <table class="admin-matches-table">
+            <thead>
+                <tr><th>Rank</th><th>Team</th><th>Pl</th><th>W</th><th>D</th><th>L</th><th>F</th><th>Ag</th><th>Diff</th><th>G</th><th>B</th><th>Total</th><th>Pts Scored</th></tr>
+            </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td>{{ r.rank or '' }}</td>
+                    <td>{{ r.team }}</td>
+                    <td>{{ r.pl }}</td>
+                    <td>{{ r.w }}</td>
+                    <td>{{ r.d }}</td>
+                    <td>{{ r.l }}</td>
+                    <td>{{ r.pts_f }}</td>
+                    <td>{{ r.pts_ag }}</td>
+                    <td>{{ r.pts_diff }}</td>
+                    <td>{{ r.g_pts }}</td>
+                    <td>{{ r.b_pts }}</td>
+                    <td>{{ r.total }}</td>
+                    <td>{{ r.pts_scored }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

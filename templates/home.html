@@ -57,11 +57,18 @@
 				<span class="cd-val cd-secs">--</span>
 				<div class="cd-label">until kick-off</div>
 			</div>
-			<a href="{{ url_for('fixtures_results') }}" class="hero-btn hero-btn-outline nm-btn">See all fixtures</a>
+			
 			{% else %}
-			<a href="{{ url_for('fixtures_results') }}" class="hero-btn hero-btn-primary nm-btn">View fixtures</a>
+			
 			{% endif %}
 		</div>
+
+		<!-- anchor button pinned to bottom-right of the Next Match card -->
+		{% if next_match %}
+		<a href="{{ url_for('fixtures_results') }}" class="hero-btn hero-btn-outline nm-btn">See all fixtures</a>
+		{% else %}
+		<a href="{{ url_for('fixtures_results') }}" class="hero-btn hero-btn-primary nm-btn">View fixtures</a>
+		{% endif %}
 	</div>
 
 </section>

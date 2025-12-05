@@ -745,6 +745,7 @@ body.no-footer footer, body.auth-bg footer {
     box-shadow: 0 22px 70px rgba(0,0,0,0.6);
     min-height: 160px;
 }
+.next-match-card { position: relative; }
 .nm-left { display:flex; flex-direction:column; gap:6px; align-items:flex-start; justify-content:flex-start; padding-top:2px; height:100%; }
 .nm-title { font-size:1.14rem; color:#cfcfcf; font-weight:800; margin-top:0; }
 .nm-line { color:#e6f8ea; font-weight:800; }
@@ -761,7 +762,7 @@ body.no-footer footer, body.auth-bg footer {
 .cd-val { background:#111; padding:4px 6px; border-radius:6px; min-width:28px; text-align:center; font-size:0.95rem; }
 .cd-sep { color:#9ea79a; font-weight:600; margin-right:4px; margin-left:4px; font-size:0.85rem; }
 .cd-label { font-size:0.72rem; color:#cfcfcf; font-weight:600; margin-top:4px; text-align:right; }
-.nm-btn { position: absolute; right: 12px; bottom: 8px; padding:8px 12px; border-radius:8px; font-weight:700; }
+.next-match-card .nm-btn { position: absolute; right: 12px; bottom: 12px; padding:8px 12px; border-radius:8px; font-weight:700; }
 
 @media (max-width:900px) {
     .next-match-card { grid-template-columns: 1fr 1fr 1fr; gap:10px; padding:10px; }

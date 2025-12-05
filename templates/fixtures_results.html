@@ -13,15 +13,15 @@
 		{% for match in upcoming %}
 		<article class="match-card">
 			<div class="left-pane">
+				<div class="ribbon ribbon-home">HOME</div>
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.home_team.name }} logo" class="team-logo">
 				<div class="score-box scheduled">
 					<div class="top">{{ match.date_time.strftime('%d %b') }}</div>
 					<div class="bottom">{{ match.date_time.strftime('%H:%M') }}</div>
 				</div>
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
+				<div class="ribbon ribbon-away">AWAY</div>
 			</div>
-
-			<div class="ribbon ribbon-home">HOME</div>
 
 			<div class="match-main">
 				<div class="match-left">
@@ -41,6 +41,7 @@
 		{% for match in past %}
 		<article class="match-card">
 			<div class="left-pane">
+				<div class="ribbon ribbon-home">HOME</div>
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.home_team.name }} logo" class="team-logo">
 				{% if match.home_score is not none and match.away_score is not none %}
 					{% set result = 'win' if match.home_score > match.away_score else ('loss' if match.home_score < match.away_score else 'draw') %}
@@ -54,9 +55,7 @@
 					</div>
 				{% endif %}
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
-			</div>
-
-			<div class="ribbon ribbon-home">HOME</div>
+				<div class="ribbon ribbon-away">AWAY</div>
 
 			<div class="match-main">
 				<div class="match-left">

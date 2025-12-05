@@ -418,6 +418,38 @@ main {
 .ribbon-home { background: var(--brand-green); }
 .ribbon-away { background: #cfcfcf; color: #1d1d1d; }
 
+/* Position HOME/AWAY ribbons beside the logo block */
+.match-card { position: relative; }
+.left-pane { position: relative; padding-left: 36px; padding-right: 36px; }
+.left-pane .ribbon {
+    position: absolute;
+    /* center vertically beside the logo block rather than stretching by top/bottom */
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 10px 6px; /* slightly reduced vertical padding for tighter fit */
+    min-height: 56px;
+}
+.left-pane .ribbon-home {
+    /* position ribbon inside reserved left padding so it does not overlap the logo */
+    left: 6px;
+    background: var(--brand-green);
+}
+.left-pane .ribbon-away {
+    /* position ribbon inside reserved right padding to sit beside the away logo */
+    right: 6px;
+    background: #b04b4b; /* red */
+    color: #fff;
+}
+
+@media (max-width:480px) {
+    /* hide decorative ribbons on small screens to avoid overflow */
+    .left-pane .ribbon { display: none; }
+}
+
 .match-main {
     flex: 1;
     display: flex;

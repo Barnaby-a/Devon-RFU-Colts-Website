@@ -20,14 +20,12 @@
             <h3 style="margin:0 0 8px 0">Leaderboards</h3>
             <p style="margin:0;color:#cfcfcf">Manage league tables and standings.</p>
             <p style="margin-top:10px"><a class="hero-btn hero-btn-outline" href="{{ url_for('admin_leaderboards') }}">Edit leaderboards</a></p>
-            <p style="margin-top:8px;color:#8a8a8a">Add rows manually; ranks are recalculated automatically by points scored.</p>
         </div>
 
         <div style="background:#151515;padding:14px;border-radius:10px;min-width:220px;flex:1;">
             <h3 style="margin:0 0 8px 0">Teams</h3>
             <p style="margin:0;color:#cfcfcf">Total teams: <strong>{{ team_count }}</strong></p>
             <p style="margin-top:10px"><a class="hero-btn hero-btn-outline" href="{{ url_for('admin_teams') }}">Manage teams</a></p>
-            <p style="margin-top:8px;color:#8a8a8a">(Teams management not implemented yet; add via Flask shell or ask me to add UI.)</p>
         </div>
     </div>
 

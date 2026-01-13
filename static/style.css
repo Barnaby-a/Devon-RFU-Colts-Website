@@ -447,9 +447,10 @@ main {
     color: #fff;
 }
 
-@media (max-width:480px) {
-    /* hide decorative ribbons on small screens to avoid overflow */
+@media (max-width:768px) {
+    /* hide decorative ribbons on smaller screens to avoid overlap */
     .left-pane .ribbon { display: none; }
+    .left-pane { padding-left: 0; padding-right: 0; }
 }
 
 .match-main {

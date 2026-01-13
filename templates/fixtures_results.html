@@ -56,6 +56,7 @@
 				{% endif %}
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
 				<div class="ribbon ribbon-away">AWAY</div>
+			</div>
 
 			<div class="match-main">
 				<div class="match-left">

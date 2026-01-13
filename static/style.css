@@ -367,8 +367,8 @@ main {
     border-radius: 6px;
 }
 .score-box {
-    width: 66px;
-    height: 48px; 
+    width: 70px;
+    height: 56px; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -455,14 +455,15 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
-.match-left { text-align: left; }
+.match-left { text-align: left; display: flex; flex-direction: column; gap: 8px; }
 .match-left .line { color: #e6f8ea; }
-.line-title { font-weight: 800; font-size: 1rem; margin-bottom: 6px; }
-.line-meta { color: #cfcfcf; font-size: 0.95rem; margin-bottom: 6px; }
+.line-title { font-weight: 800; font-size: 1rem; margin-bottom: 0; }
+.line-meta { color: #cfcfcf; font-size: 0.95rem; margin-bottom: 0; }
 .line-location { color: #bfbfbf; font-size: 0.9rem; }
 
-.match-right { display: flex; align-items: center; }
+.match-right { display: flex; align-items: center; margin-left: auto; }
 .btn-stats {
     background: transparent;
     border: 2px solid var(--brand-green);

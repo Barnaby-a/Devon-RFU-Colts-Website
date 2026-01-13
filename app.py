@@ -14,7 +14,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "change-this-secret-key"
 
-# Initialize extensions with the app
+# Initialize extensions with the app-
 db.init_app(app)
 login_manager.init_app(app)
 # Ensure Flask-Login redirects unauthenticated users to our login page

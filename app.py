@@ -185,11 +185,48 @@ def dashboard():
             teammates = Player.query.filter_by(team_id=team.id).join(User).all()
             return render_template('dashboard_player.html', team=team, upcoming=upcoming, teammates=teammates)
         # fallback to regular dashboard if no player profile/team
-        return render_template('dashboard.html')
+    
     # If this user is an admin (including legacy numeric roles), send them to the admin dashboard
     if _is_admin(current_user):
         return redirect(url_for('admin_dashboard'))
-    return render_template("dashboard.html")
+    
+    # Regular user dashboard with team tracking
+    teams = Team.query.order_by(Team.name).all()
+    tracked_teams = current_user.tracked_teams
+    tracked_team_ids = [t.id for t in tracked_teams]
+    
+    # Get upcoming matches for tracked teams
+    now = datetime.utcnow()
+    upcoming_matches = []
+    if tracked_teams:
+        for team in tracked_teams:
+            matches = Match.query.filter(
+                ((Match.home_team_id == team.id) | (Match.away_team_id == team.id)) & (Match.date_time >= now)
+            ).order_by(Match.date_time.asc()).limit(5).all()
+            upcoming_matches.extend(matches)
+        # Sort by date and remove duplicates
+        upcoming_matches = sorted(set(upcoming_matches), key=lambda m: m.date_time)[:10]
+    
+    return render_template("dashboard.html", teams=teams, tracked_teams=tracked_teams, 
+                         tracked_team_ids=tracked_team_ids, upcoming_matches=upcoming_matches)
+
+
+@app.route("/dashboard/track/<int:team_id>", methods=['POST'])
+@login_required
+def dashboard_track_team(team_id):
+    team = Team.query.get_or_404(team_id)
+    
+    if team in current_user.tracked_teams:
+        # Unfollow
+        current_user.tracked_teams.remove(team)
+        flash(f'You are no longer following {team.name}.', 'info')
+    else:
+        # Follow
+        current_user.tracked_teams.append(team)
+        flash(f'You are now following {team.name}!', 'success')
+    
+    db.session.commit()
+    return redirect(url_for('dashboard'))
 
 
 # Superadmin: assign coaches to a team
@@ -522,17 +559,20 @@ def sign_up():
         user.set_name(name if name else email)
         user.access_level = 'regular'
         # Store any provided club_code as free-text (no DB validation)
-        user.set_club("")
+        user.set_club("N/A")
         user.set_club_code(club_code)
         user.set_created_by("self")
 
         # Persist
-        with app.app_context():
+        try:
             db.session.add(user)
             db.session.commit()
-
-        flash("Account created — you can now log in.", "success")
-        return redirect(url_for("login"))
+            flash("Account created — you can now log in.", "success")
+            return redirect(url_for("login"))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error creating account: {e}", "danger")
+            return render_template("signup.html")
 
     return render_template("signup.html")
 

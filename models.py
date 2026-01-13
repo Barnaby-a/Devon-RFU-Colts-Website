@@ -3,6 +3,13 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
+# association table for users tracking teams
+user_tracked_teams = db.Table(
+    'user_tracked_teams',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -15,6 +22,9 @@ class User(UserMixin, db.Model):
     # NOTE: removed duplicate `account_type` field — use `access_level` exclusively
     # optional club code (references Club.code)
     club_code = db.Column(db.String(64), nullable=True)
+    
+    # relationship for tracked teams
+    tracked_teams = db.relationship('Team', secondary='user_tracked_teams', backref=db.backref('followers', lazy='dynamic'))
 
     def set_access_level(self, level):
         self.access_level = level

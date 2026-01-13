@@ -80,6 +80,7 @@
 		{% for match in last_results %}
 		<article class="match-card">
 			<div class="left-pane">
+				<div class="ribbon ribbon-home">HOME</div>
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.home_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.home_team.name }} logo" class="team-logo">
 				{% if match.home_score is not none and match.away_score is not none %}
 					{% set result = 'win' if match.home_score > match.away_score else ('loss' if match.home_score < match.away_score else 'draw') %}
@@ -93,9 +94,8 @@
 					</div>
 				{% endif %}
 				<img src="{{ url_for('static', filename='team-logos/' ~ (match.away_team.logo_filename or 'placeholder.svg')) }}" alt="{{ match.away_team.name }} logo" class="team-logo">
+				<div class="ribbon ribbon-away">AWAY</div>
 			</div>
-
-			<div class="ribbon ribbon-home">HOME</div>
 
 			<div class="match-main">
 				<div class="match-left">
@@ -104,7 +104,7 @@
 					<div class="line line-location">{{ match.location or 'TBC' }}</div>
 				</div>
 				<div class="match-right">
-					<a class="btn-stats" href="{{ url_for('stats_centre') }}?match_id={{ match.id }}">Stats</a>
+					<a class="btn-stats" href="{{ url_for('stats_centre') }}?match_id={{ match.id }}">Stats Centre</a>
 				</div>
 			</div>
 		</article>

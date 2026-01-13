@@ -45,4 +45,15 @@
   </form>
 
 </div>
+
+<style>
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.2);
+  cursor: pointer;
+}
+input[type="datetime-local"] {
+  color: white;
+  caret-color: white;
+}
+</style>
 {% endblock %}

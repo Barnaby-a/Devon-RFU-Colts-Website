@@ -369,6 +369,73 @@ def admin_leaderboards():
     return render_template('admin_leaderboards.html', rows=rows)
 
 
+@app.route('/admin/leaderboards/<int:row_id>/edit', methods=['POST'])
+@login_required
+def admin_leaderboards_edit(row_id):
+    if not current_user.is_superadmin():
+        flash('Only superadmins may manage leaderboards.', 'danger')
+        return redirect(url_for('admin_dashboard'))
+    
+    row = Leaderboard.query.get_or_404(row_id)
+    
+    try:
+        row.team = (request.form.get('team') or '').strip() or row.team
+        row.pl = int(request.form.get('pl') or row.pl)
+        row.w = int(request.form.get('w') or row.w)
+        row.d = int(request.form.get('d') or row.d)
+        row.l = int(request.form.get('l') or row.l)
+        row.pts_f = int(request.form.get('pts_f') or row.pts_f)
+        row.pts_ag = int(request.form.get('pts_ag') or row.pts_ag)
+        row.pts_diff = int(request.form.get('pts_diff') or (row.pts_f - row.pts_ag))
+        row.g_pts = int(request.form.get('g_pts') or row.g_pts)
+        row.b_pts = int(request.form.get('b_pts') or row.b_pts)
+        row.total = int(request.form.get('total') or row.total)
+        row.pts_scored = int(request.form.get('pts_scored') or row.pts_scored)
+        
+        db.session.commit()
+        
+        # recompute ranks
+        rows = Leaderboard.query.order_by(Leaderboard.pts_scored.desc()).all()
+        for idx, r in enumerate(rows, start=1):
+            r.rank = idx
+        db.session.commit()
+        
+        flash('Leaderboard row updated and ranks recalculated.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error updating leaderboard row: {e}', 'danger')
+    
+    return redirect(url_for('admin_leaderboards'))
+
+
+@app.route('/admin/leaderboards/<int:row_id>/delete', methods=['POST'])
+@login_required
+def admin_leaderboards_delete(row_id):
+    if not current_user.is_superadmin():
+        flash('Only superadmins may manage leaderboards.', 'danger')
+        return redirect(url_for('admin_dashboard'))
+    
+    row = Leaderboard.query.get_or_404(row_id)
+    team_name = row.team
+    
+    try:
+        db.session.delete(row)
+        db.session.commit()
+        
+        # recompute ranks
+        rows = Leaderboard.query.order_by(Leaderboard.pts_scored.desc()).all()
+        for idx, r in enumerate(rows, start=1):
+            r.rank = idx
+        db.session.commit()
+        
+        flash(f'Leaderboard row for {team_name} deleted and ranks recalculated.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting leaderboard row: {e}', 'danger')
+    
+    return redirect(url_for('admin_leaderboards'))
+
+
 # Admin: list and manage matches
 @app.route('/admin/matches')
 @login_required

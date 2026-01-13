@@ -39,6 +39,8 @@ body {
     color: var(--brand-green);
     text-decoration: none;
     transition: all 0.3s;
+    position: relative;
+    z-index: 100000;
 }
 
 .links:hover {
@@ -630,7 +632,6 @@ body.no-footer footer, body.auth-bg footer {
 }
 #footer-sect-1-fract-4 a {
     display: inline-flex;
-    margin-right: 10px;
 }
 #footer-sect-1-fract-4 img {
     width: 32px;
